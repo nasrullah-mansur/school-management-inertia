@@ -26,7 +26,11 @@ export default function Dashboard({ children }) {
             <div className="max-w-screen-2xl mx-auto p-4 relative z-0">
                 {children}
             </div>
-            <ToastContainer />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={10000}
+                closeOnClick={true}
+            />
         </div>
     );
 }

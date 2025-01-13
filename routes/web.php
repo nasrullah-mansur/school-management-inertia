@@ -10,9 +10,10 @@ use App\Http\Controllers\SectorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YearController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render("Welcome");
 });
 
 

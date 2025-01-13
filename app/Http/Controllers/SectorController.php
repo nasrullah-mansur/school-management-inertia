@@ -6,30 +6,34 @@ use App\Models\Admission;
 use App\Models\Sector;
 use App\Models\Year;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SectorController extends Controller
 {
     public function index() {
-        $sectors = Sector::with('admissions')->get();
-        return view('back.sector.index', ['sectors' => $sectors]);
+        $sectors = Sector::withCount('admissions')->get();
+        return Inertia::render("Sector/Index", ['sectors' => $sectors]);
     }
 
     public function create() {
         $years = Year::all();
-        return view('back.sector.create', ['years' => $years]);
+        return Inertia::render("Sector/Create", ['years' => $years]);
     }
     public function store(Request $request) {
+        
         $request->validate([
             'sector' => "required|max:256",
             'prefix' => 'required|max:256',
             'year_id' => 'required'
         ], [
             "sector.required" => "দয়া করে কিছু লিখুন",
-            "prefix.required" => "দয়া করে কিছু লিখুন"
+            "prefix.required" => "দয়া করে কিছু লিখুন",
+            'year_id.required' => "দয়া করে যেকোনো একটি সিলেক্ট করুন"
         ]);
 
         $sector = new Sector();
         $sector->sector = $request->sector;
+        $sector->status = $request->status;
         $sector->year_id = $request->year_id;
         $sector->prefix = convertToEnglishFont($request->prefix);
         $sector->save();
@@ -40,7 +44,7 @@ class SectorController extends Controller
     public function edit($id) {
         $sector = Sector::where('id', $id)->firstOrFail();
         $years = Year::all();
-        return view('back.sector.edit', ['sector' => $sector, 'years' => $years]);
+        return Inertia::render("Sector/Edit", ['sector' => $sector, 'years' => $years]);
     }
 
     public function update(Request $request) {
@@ -50,11 +54,13 @@ class SectorController extends Controller
             'year_id' => 'required'
         ], [
             "sector.required" => "দয়া করে কিছু লিখুন",
-            "prefix.required" => "দয়া করে কিছু লিখুন"
+            "prefix.required" => "দয়া করে কিছু লিখুন",
+            'year_id.required' => "দয়া করে যেকোনো একটি সিলেক্ট করুন"
         ]);
 
         $sector = Sector::where('id', $request->id)->firstOrFail();
         $sector->sector = $request->sector;
+        $sector->status = $request->status;
         $sector->year_id = $request->year_id;
         $sector->prefix = convertToEnglishFont($request->prefix) ;
         $sector->save();

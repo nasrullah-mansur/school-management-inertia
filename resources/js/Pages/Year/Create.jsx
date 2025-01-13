@@ -4,10 +4,13 @@ import TextInput from "../Components/TextInput";
 import Dashboard from "../Dashboard";
 import { useForm } from "@inertiajs/react";
 import Loading from "../Components/Loading";
+import Select from "react-select";
+import { select2style, statusOptions } from "@/utils/select2";
 
 export default function YearCreate() {
     const { data, setData, post, processing, errors, reset } = useForm({
         year: "",
+        status: "active",
     });
 
     function submit(e) {
@@ -42,6 +45,16 @@ export default function YearCreate() {
                             {errors.year}
                         </span>
                     )}
+                    <Select
+                        styles={select2style}
+                        isSearchable={false}
+                        name="status"
+                        onChange={(e) =>
+                            setData("status", e?.value || "active")
+                        }
+                        defaultValue={{ value: "active", label: "Active" }}
+                        options={statusOptions}
+                    />
                     <button
                         disabled={processing}
                         type="submit"

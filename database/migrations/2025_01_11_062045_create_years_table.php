@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('years', function (Blueprint $table) {
             $table->id();
             $table->string('year');
+            $table->string('status')->default(STATUS_ACTIVE);
             $table->timestamps();
         });
     }

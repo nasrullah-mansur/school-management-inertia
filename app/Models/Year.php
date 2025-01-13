@@ -9,4 +9,8 @@ class Year extends Model
     public function months() {
         return $this->hasMany(Month::class);
     }
+
+    public function admissions() {
+        return $this->hasMany(Admission::class);
+    }
 }

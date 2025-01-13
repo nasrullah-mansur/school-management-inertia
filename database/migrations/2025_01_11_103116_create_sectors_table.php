@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('sector');
             $table->integer('year_id');
             $table->string('prefix');
+            $table->string('status')->default(STATUS_ACTIVE);
             $table->timestamps();
         });
     }
