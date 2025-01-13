@@ -1,0 +1,70 @@
+import Cart from "../Components/Cart";
+import PageHeader from "../Components/PageHeader";
+import TextInput from "../Components/TextInput";
+import Dashboard from "../Dashboard";
+import { useForm } from "@inertiajs/react";
+import Loading from "../Components/Loading";
+
+export default function YearCreate({ year }) {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        year: year.year,
+        id: year.id,
+    });
+
+    function submit(e) {
+        e.preventDefault();
+        post(route("year.update", year.id), {
+            onSuccess: () => {
+                reset();
+            },
+        });
+    }
+
+    return (
+        <Dashboard>
+            <PageHeader
+                title="শিক্ষাবর্ষটি এডিট"
+                subTitle="শিক্ষাবর্ষটি এডিট করুন"
+                backLink={route("year.index")}
+                addLink={null}
+            />
+
+            <Cart title="শিক্ষাবর্ষটি এডিট করুন">
+                <form className="space-y-6" onSubmit={submit}>
+                    <TextInput
+                        type="text"
+                        label="শিক্ষাবর্ষটি লিখুন"
+                        placeholder="এখানে লিখুন"
+                        name="year"
+                        value={data.year}
+                        onChange={(e) => setData("year", e.target.value)}
+                    />
+                    <TextInput
+                        type="hidden"
+                        label="আই ডি লিখুন"
+                        placeholder="এখানে লিখুন"
+                        name="id"
+                        value={data.id}
+                        onChange={(e) => setData("id", e.target.value)}
+                    />
+                    {errors.year && (
+                        <span className="text-red-500 text-sm">
+                            {errors.year}
+                        </span>
+                    )}
+                    <button
+                        disabled={processing}
+                        type="submit"
+                        className="blue-btn"
+                    >
+                        <span className="font-banglaTitle">
+                            শিক্ষাবর্ষটি সেভ করুন
+                        </span>
+                    </button>
+                </form>
+
+                {processing && <Loading />}
+            </Cart>
+        </Dashboard>
+    );
+}

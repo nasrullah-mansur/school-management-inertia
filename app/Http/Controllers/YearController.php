@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Month;
 use App\Models\Year;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class YearController extends Controller
 {
     public function index() {
         $years = Year::all();
-        return view('back.year.index', ['years' => $years]);
+        return Inertia::render('Year/Index', ['years' => $years]);
     }
 
     public function create() {
-        return view('back.year.create');
+        return Inertia::render("Year/Create");
     }
     public function store(Request $request) {
         $request->validate([
@@ -28,17 +29,19 @@ class YearController extends Controller
         $year->save();
 
         return redirect()->route('year.index')->with('success', "আপনি সফলভাবে শিক্ষাবর্ষ যুক্ত করেছেন");
+        // return to_route('year.index');
     }
 
     public function edit($id) {
         $year = Year::where('id', $id)->firstOrFail();
 
-        return view('back.year.edit', ['year' => $year]);
+        return Inertia::render("Year/Edit", ['year' => $year]);
     }
 
     public function update(Request $request) {
         $request->validate([
-            'year' => "required|max:256"
+            'year' => "required|max:256",
+            'id' => 'required'
         ], [
             "year.required" => "দয়া করে কিছু লিখুন"
         ]);

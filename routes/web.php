@@ -32,21 +32,18 @@ Route::middleware(["auth"])->group(function() {
     Route::post('years/store', [YearController::class, 'store'])->name('year.store');
     Route::get('years/edit/{id}', [YearController::class, 'edit'])->name('year.edit');
     Route::post('years/update', [YearController::class, 'update'])->name('year.update');
-    Route::get('years/delete/{id}', [YearController::class, 'delete'])->name('year.delete');
 
     Route::get('months', [MonthController::class, 'index'])->name('month.index');
     Route::get('months/create', [MonthController::class, 'create'])->name('month.create');
     Route::post('months/store', [MonthController::class, 'store'])->name('month.store');
     Route::get('months/edit/{id}', [MonthController::class, 'edit'])->name('month.edit');
     Route::post('months/update', [MonthController::class, 'update'])->name('month.update');
-    Route::get('months/delete/{id}', [MonthController::class, 'delete'])->name('month.delete');
 
     Route::get('sectors', [SectorController::class, 'index'])->name('sector.index');
     Route::get('sectors/create', [SectorController::class, 'create'])->name('sector.create');
     Route::post('sectors/store', [SectorController::class, 'store'])->name('sector.store');
     Route::get('sectors/edit/{id}', [SectorController::class, 'edit'])->name('sector.edit');
     Route::post('sectors/update', [SectorController::class, 'update'])->name('sector.update');
-    Route::get('sectors/delete/{id}', [SectorController::class, 'delete'])->name('sector.delete');
 
     Route::get('users', [UserController::class, 'index'])->name('user.index');
     Route::get('users/create', [UserController::class, 'create'])->name('user.create');

@@ -21,6 +21,11 @@
         "vite": "^6.0"
     },
     "dependencies": {
-        "react-pro-sidebar": "^1.1.0"
+        "@fontsource/hind-siliguri": "^5.1.1",
+        "moment": "^2.30.1",
+        "react-icons": "^5.4.0",
+        "react-pro-sidebar": "^1.1.0",
+        "react-toastify": "^11.0.2",
+        "ziggy-js": "^2.4.2"
     }
 }
