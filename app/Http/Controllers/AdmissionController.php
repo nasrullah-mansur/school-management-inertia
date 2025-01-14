@@ -13,18 +13,20 @@ use Inertia\Inertia;
 class AdmissionController extends Controller
 {
     public function index() {
+        $years = Year::all();
+        $sectors = Sector::all();
         $admissions = Admission::with('year')
         ->whereHas('year', function ($query) {
             $query->where('status', 'active');
         })
         ->orderBy('created_at', 'DESC')
-        ->paginate(15);
-        return Inertia::render("Student/Index", ['admissions' => $admissions]);
+        ->paginate(10);
+        return Inertia::render("Student/Index", ['admissions' => $admissions, "years" => $years, "sectors" => $sectors]);
     }
 
     public function create() {
-        $years = Year::all();
-        $sectors = Sector::all();
+        $years = Year::where('status', 'active')->get();
+        $sectors = Sector::where('status', 'active')->get();
         return Inertia::render('Student/Create', [
             'years' => $years,
             "sectors" => $sectors,
@@ -87,8 +89,8 @@ class AdmissionController extends Controller
 
     public function edit($id) {
         $student = Admission::where('id', $id)->firstOrFail();
-        $years = Year::all();
-        $sectors = Sector::all();
+        $years = Year::where('status', 'active')->get();
+        $sectors = Sector::where('status', 'active')->get();
         return Inertia::render('Student/Edit', [
             'years' => $years,
             "sectors" => $sectors,
@@ -144,48 +146,7 @@ class AdmissionController extends Controller
 
     }
 
-    public function by_me() {
-        $admissions = Admission::where('user_id', Auth::user()->id)->paginate(10);
-        return view("back.student.me", ['admissions' => $admissions]);
-    }
-
-    public function find(Request $request) {
-        // return $request;
-        $r_id = $request->r_id;
-        $phone = $request->phone;
-
-        if($r_id) {
-            return redirect()->route('admission.get', ['registration', $r_id]);
-        }
-
-        if($phone) {
-            return redirect()->route('admission.get', ['phone', $phone]);
-        }
-
-        return redirect()->route('admission.create');
-        
-    }
-
-    public function edit_list($tag, $id) {
-        $admissions = null;
-
-        if($tag == 'registration') {
-            $admissions = Admission::where('reg_id', $id)->get();
-        } else {
-            $admissions = Admission::where('phone', $id)->get();
-        }
-        return view('back.student.edit_list', [
-            'admissions' => $admissions,            
-        ]);
-    }
-
-    // For add money or edit student data;
     
-
-    public function student_check() {
-        return view('back.student.check');
-    }
-
     
 }
 

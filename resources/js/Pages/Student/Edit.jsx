@@ -34,6 +34,11 @@ export default function StudentEdit({ years, sectors, student }) {
         return { value: s.id, label: s.sector };
     });
 
+    const statusOptionsCustom = [
+        { value: "active", label: "নিয়মিত" },
+        { value: "inactive", label: "বিদায়" },
+    ];
+
     function submit(e) {
         e.preventDefault();
         post(route("admission.update", student.id), {
@@ -271,10 +276,10 @@ export default function StudentEdit({ years, sectors, student }) {
                             isSearchable={false}
                             name="status"
                             onChange={(e) =>
-                                setData("status", e?.value || "active")
+                                setData("status", e?.value || "নিয়মিত")
                             }
-                            defaultValue={{ value: "active", label: "Active" }}
-                            options={statusOptions}
+                            defaultValue={{ value: "active", label: "নিয়মিত" }}
+                            options={statusOptionsCustom}
                         />
                     </div>
                     <button

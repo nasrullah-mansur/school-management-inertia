@@ -162,7 +162,7 @@ export default function Sidebar() {
                 {
                     id: "2",
                     name: "নতুন ছাত্র ভর্তি",
-                    link: "#",
+                    link: route("admission.create"),
                 },
             ],
         },
@@ -232,7 +232,7 @@ export default function Sidebar() {
                     </div>
                     <div
                         onClick={() => setIsActive(!isActive)}
-                        className="z-40 fixed top-0 left-0 w-full h-screen inset-0 backdrop-blur bg-white/10 flex items-center justify-center"
+                        className="z-40 fixed top-0 left-0 w-full h-screen inset-0 backdrop-blur bg-black/40 flex items-center justify-center"
                     ></div>
                 </>
             )}

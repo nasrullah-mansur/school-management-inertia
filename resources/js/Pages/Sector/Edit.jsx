@@ -13,6 +13,7 @@ export default function SectorEdit({ years, sector }) {
         sector: sector.sector,
         year_id: sector.year_id,
         prefix: sector.prefix,
+        status: sector.status,
     });
 
     function submit(e) {
