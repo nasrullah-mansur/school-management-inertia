@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('money_fors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('status');
+            $table->string('status')->default(STATUS_ACTIVE);
             $table->timestamps();
         });
     }

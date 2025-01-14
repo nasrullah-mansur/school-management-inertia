@@ -152,16 +152,16 @@ export default function Sidebar() {
         },
         {
             id: "2",
-            name: "menu two",
+            name: "ছাত্র সংক্রান্ত",
             submenu: [
                 {
                     id: "1",
-                    name: "sub menu one",
-                    link: "#",
+                    name: "সকল ছাত্রের তথ্য",
+                    link: route("admission.index"),
                 },
                 {
                     id: "2",
-                    name: "sub menu two",
+                    name: "নতুন ছাত্র ভর্তি",
                     link: "#",
                 },
             ],

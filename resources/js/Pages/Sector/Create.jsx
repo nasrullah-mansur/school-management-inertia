@@ -40,13 +40,7 @@ export default function SectorCreate({ years }) {
             <Cart title="একটি নতুন বিভাগ তৈরী করুন">
                 <form className="space-y-6" onSubmit={submit}>
                     <Select
-                        styles={{
-                            control: (baseStyles) => ({
-                                ...baseStyles,
-                                padding: "3px",
-                                fontSize: "8px",
-                            }),
-                        }}
+                        styles={select2style}
                         isSearchable={false}
                         name="year_id"
                         placeholder="একটি শিক্ষাবর্ষ সিলেক্ট করুন"

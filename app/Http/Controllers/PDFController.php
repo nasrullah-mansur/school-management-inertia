@@ -23,7 +23,7 @@ class PDFController extends Controller
 
         $fileName = $admission->reg_id . ".pdf";
 
-       $pdf = Pdf::loadView('pdf.vorti', $data);
+       $pdf = Pdf::loadView("pdf.vorti", $data);
 
        return $pdf->download($fileName);
     }

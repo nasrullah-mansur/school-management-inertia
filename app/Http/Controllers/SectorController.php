@@ -11,7 +11,7 @@ use Inertia\Inertia;
 class SectorController extends Controller
 {
     public function index() {
-        $sectors = Sector::withCount('admissions')->get();
+        $sectors = Sector::withCount('admissions')->latest()->get();
         return Inertia::render("Sector/Index", ['sectors' => $sectors]);
     }
 

@@ -7,7 +7,7 @@ import Loading from "../Components/Loading";
 import Select from "react-select";
 import { select2style, statusOptions } from "@/utils/select2";
 
-export default function YearCreate({ year }) {
+export default function YearEdit({ year }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         year: year.year,
         id: year.id,

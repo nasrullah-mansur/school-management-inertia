@@ -8,35 +8,47 @@ use App\Models\Sector;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AdmissionController extends Controller
 {
+    public function index() {
+        $admissions = Admission::with('year')
+        ->whereHas('year', function ($query) {
+            $query->where('status', 'active');
+        })
+        ->orderBy('created_at', 'DESC')
+        ->paginate(15);
+        return Inertia::render("Student/Index", ['admissions' => $admissions]);
+    }
+
     public function create() {
         $years = Year::all();
         $sectors = Sector::all();
-        $admissions = Admission::orderBy('created_at', 'DESC')->take(5)->get();
-        return view('back.student.create', [
+        return Inertia::render('Student/Create', [
             'years' => $years,
             "sectors" => $sectors,
-            "admissions" => $admissions
         ]);
     }
 
     public function store(Request $request) {
-
-        
-        
+        // return $request;
         $request->validate([
             'name' => 'required|max:256', 
+            'father_name' => "required|max:256",
             'year_id' => 'required|numeric', 
             'sector_id' => 'required|numeric', 
             'form_no' => 'required|unique:admissions', 
             'phone' => 'required|max:256',
         ], [
-            'name.required' => 'দয়া করে পূর্ণ নামটি লিখুন',
-            'year_id.required' => "দয়া করে একটি শিক্ষাবর্ষ সিলেক্ট করুন",
-            'sector_id.required' => "দয়া করে একটি বিভাগ সিলেক্ট করুন",
-            "form_no.unique" => "এই ফরম নাম্বারটি একবার ব্যবহৃত হয়েছে"
+            'name.required' => 'পূর্ণ নামটি লিখুন',
+            'father_name.required' => 'পিতার নামটি লিখুন',
+            'name.required' => 'পিতার নামটি লিখুন',
+            'year_id.required' => "একটি শিক্ষাবর্ষ সিলেক্ট করুন",
+            'sector_id.required' => "একটি বিভাগ সিলেক্ট করুন",
+            "form_no.required" => "ভর্তি ফরম নাম্বার লিখুন",
+            "form_no.unique" => "এই ফরম নাম্বারটি একবার ব্যবহৃত হয়েছে",
+            "phone.required" => "ফোন নাম্বারটি লিখুন",
         ]);
 
         $admission = new Admission();
@@ -53,6 +65,7 @@ class AdmissionController extends Controller
         $admission->post = $request->post;
         $admission->thana = $request->thana;
         $admission->zila = $request->zila;
+        $admission->status = $request->status;
         
         $admission->user_id = strval(Auth::user()->id);
         $admission->phone_2 = convertToEnglishFont($request->phone_2);
@@ -68,8 +81,19 @@ class AdmissionController extends Controller
 
         $admission->save();
 
-        return redirect()->route('admission.create')->with('success', "একজন ছাত্রের ভর্তি কার্যক্রম সফলভাবে সম্পন্ন হয়েছে");
+        return redirect()->route('admission.index')->with('success', "একজন ছাত্রের ভর্তি কার্যক্রম সফলভাবে সম্পন্ন হয়েছে");
 
+    }
+
+    public function edit($id) {
+        $student = Admission::where('id', $id)->firstOrFail();
+        $years = Year::all();
+        $sectors = Sector::all();
+        return Inertia::render('Student/Edit', [
+            'years' => $years,
+            "sectors" => $sectors,
+            "student" => $student
+        ]);
     }
 
     public function update(Request $request, $id) {
@@ -108,6 +132,7 @@ class AdmissionController extends Controller
         $admission->post = $request->post;
         $admission->thana = $request->thana;
         $admission->zila = $request->zila;
+        $admission->status = $request->status;
         
         $admission->user_id = strval(Auth::user()->id);
         $admission->phone_2 = convertToEnglishFont($request->phone_2);
@@ -115,7 +140,7 @@ class AdmissionController extends Controller
 
         $admission->save();
 
-        return redirect()->back()->with('success', "ছাত্রের ভর্তি তথ্য সফলভাবে আপডেট হয়েছে");
+        return redirect()->route('admission.index')->with('success', "ছাত্রের ভর্তি তথ্য সফলভাবে আপডেট হয়েছে");
 
     }
 
@@ -155,18 +180,7 @@ class AdmissionController extends Controller
     }
 
     // For add money or edit student data;
-    public function edit_form($id) {
-        $admission = Admission::where('reg_id', $id)->firstOrFail();
-        $incomes = Income::where('admission_id', $admission->id)->get();
-        $years = Year::all();
-        $sectors = Sector::all();
-        return view('back.student.edit_form', [
-            'admission' => $admission,
-            'years' => $years,
-            'sectors' => $sectors,
-            'incomes' => $incomes,
-        ]);
-    }
+    
 
     public function student_check() {
         return view('back.student.check');

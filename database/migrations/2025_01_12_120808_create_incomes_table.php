@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('month_id');
             $table->integer('money_for_id');
             $table->integer('amount');
+            $table->string('status')->default(STATUS_ACTIVE);
             $table->timestamps();
         });
     }

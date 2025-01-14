@@ -7,17 +7,16 @@ import Loading from "../Components/Loading";
 import Select from "react-select";
 import { select2style, statusOptions } from "@/utils/select2";
 
-export default function SectorEdit({ years, sector }) {
+export default function MonthCreate({ years }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        id: sector.id,
-        sector: sector.sector,
-        year_id: sector.year_id,
-        prefix: sector.prefix,
+        month: "",
+        status: "active",
+        year_id: "",
     });
 
     function submit(e) {
         e.preventDefault();
-        post(route("sector.update"), {
+        post(route("month.store"), {
             onSuccess: () => {
                 reset();
             },
@@ -31,63 +30,38 @@ export default function SectorEdit({ years, sector }) {
     return (
         <Dashboard>
             <PageHeader
-                title="বিভাগ এডিট"
-                subTitle="বিভাগটি এডিট করুন"
-                backLink={route("sector.index")}
+                title="নতুন মাস"
+                subTitle="একটি নতুন মাস তৈরী করুন"
+                backLink={route("month.index")}
                 addLink={null}
             />
 
-            <Cart title="বিভাগটি এডিট করুন">
+            <Cart title="একটি নতুন মাস তৈরী">
                 <form className="space-y-6" onSubmit={submit}>
                     <TextInput
-                        type="hidden"
-                        name="id"
-                        value={data.id}
-                        onChange={(e) => setData("sector", e.target.value)}
+                        type="text"
+                        label="মাসের নামটি লিখুন"
+                        placeholder="এখানে লিখুন"
+                        name="month"
+                        value={data.month}
+                        onChange={(e) => setData("month", e.target.value)}
                     />
-
+                    {errors.month && (
+                        <span className="text-red-500 text-sm">
+                            {errors.month}
+                        </span>
+                    )}
                     <Select
                         styles={select2style}
                         isSearchable={false}
-                        defaultValue={optionArr.find(
-                            (option) => option.value === sector.year_id
-                        )}
                         name="year_id"
                         placeholder="একটি শিক্ষাবর্ষ সিলেক্ট করুন"
                         onChange={(e) => setData("year_id", e.value)}
                         options={optionArr}
                     />
-
                     {errors.year_id && (
                         <span className="text-red-500 text-sm">
                             {errors.year_id}
-                        </span>
-                    )}
-                    <TextInput
-                        type="text"
-                        label="বিভাগের নামটি লিখুন"
-                        placeholder="এখানে লিখুন"
-                        name="sector"
-                        value={data.sector}
-                        onChange={(e) => setData("sector", e.target.value)}
-                    />
-                    {errors.sector && (
-                        <span className="text-red-500 text-sm">
-                            {errors.sector}
-                        </span>
-                    )}
-
-                    <TextInput
-                        type="text"
-                        label="একটি প্রিফিক্স লিখুন"
-                        placeholder="এখানে লিখুন"
-                        name="prefix"
-                        value={data.prefix}
-                        onChange={(e) => setData("prefix", e.target.value)}
-                    />
-                    {errors.prefix && (
-                        <span className="text-red-500 text-sm">
-                            {errors.prefix}
                         </span>
                     )}
 
@@ -98,17 +72,16 @@ export default function SectorEdit({ years, sector }) {
                         onChange={(e) =>
                             setData("status", e?.value || "active")
                         }
-                        defaultValue={statusOptions[0]}
+                        defaultValue={{ value: "active", label: "Active" }}
                         options={statusOptions}
                     />
-
                     <button
                         disabled={processing}
                         type="submit"
                         className="blue-btn"
                     >
                         <span className="font-banglaTitle">
-                            বিভাগটি এডিট করুন
+                            নতুন শিক্ষাবর্ষটি সেভ করুন
                         </span>
                     </button>
                 </form>

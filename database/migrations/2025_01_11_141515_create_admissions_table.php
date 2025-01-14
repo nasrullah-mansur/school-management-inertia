@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('zila')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('phone_3')->nullable();
+            $table->string('status')->default(STATUS_ACTIVE);
 
             $table->timestamps();
         });
