@@ -1,8 +1,10 @@
-export default function Table({ children, headers }) {
+export default function Table({ children, headers, className = "" }) {
     return (
         <div className="relative overflow-x-auto ">
             <table className="w-full border text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead
+                    className={`text-xs ${className} border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400`}
+                >
                     <tr>
                         {headers?.map((header, index) => (
                             <th

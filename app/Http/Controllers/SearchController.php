@@ -59,8 +59,8 @@ class SearchController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
-            $years = Year::all();
-            $sectors = Sector::all();
+            $years = Year::where('status', "active")->get();
+            $sectors = Sector::where('status', "active")->get();
 
             return Inertia::render("Student/Index", [
                 'admissions' => $admissions,

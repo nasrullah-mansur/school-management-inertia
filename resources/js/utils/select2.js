@@ -3,6 +3,7 @@ const select2style = {
         ...baseStyles,
         padding: "3px",
         fontSize: "8px", // Note: Font size may require adjusting other styles for consistent appearance
+        fontFamily: "Hind Siliguri",
     }),
 };
 

@@ -1,15 +1,12 @@
-import Cart from "../Components/Cart";
 import PageHeader from "../Components/PageHeader";
 import TextInput from "../Components/TextInput";
 import Dashboard from "../Dashboard";
 import { useForm } from "@inertiajs/react";
 import Loading from "../Components/Loading";
 import Select from "react-select";
-import { select2style, statusOptions } from "@/utils/select2";
+import { select2style } from "@/utils/select2";
 
-export default function StudentEdit({ years, sectors, student }) {
-    console.log(student);
-
+export default function StudentEdit({ sectors, student }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: student.name,
         reg_id: student.reg_id,
@@ -35,8 +32,10 @@ export default function StudentEdit({ years, sectors, student }) {
     });
 
     const statusOptionsCustom = [
+        { value: "all", label: "সকল স্টাটাস" },
         { value: "active", label: "নিয়মিত" },
-        { value: "inactive", label: "বিদায়" },
+        { value: "inactive", label: "বিদায়ী" },
+        { value: "past", label: "বিগত ছাত্র" },
     ];
 
     function submit(e) {

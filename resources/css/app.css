@@ -15,3 +15,11 @@
 .Toastify__toast {
     @apply font-banglaTitle;
 }
+
+.react-datepicker__day {
+    @apply !font-banglaTitle;
+}
+
+.react-datepicker__navigation {
+    @apply mt-[30px];
+}

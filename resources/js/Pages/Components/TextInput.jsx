@@ -6,7 +6,10 @@ export default function TextInput(props) {
                     htmlFor={props.id || ""}
                     className="block mb-2 font-medium text-gray-900 dark:text-white"
                 >
-                    {props.label}
+                    {props.label}{" "}
+                    {props.label2 && (
+                        <small className="text-red-500">{props.label2}</small>
+                    )}
                 </label>
             )}
             <input

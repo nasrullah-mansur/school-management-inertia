@@ -6,7 +6,9 @@ export default function PageHeader({ title, subTitle, backLink, addLink }) {
     return (
         <div className="flex justify-between mb-10">
             <div className="border-l-2 pl-2">
-                <h1 className="text-xl font-banglaTitle">{title}</h1>
+                <h1 className="text-3xl font-semibold font-banglaTitle">
+                    {title}
+                </h1>
                 <p className="font-normal">{subTitle}</p>
             </div>
             <div className="flex">

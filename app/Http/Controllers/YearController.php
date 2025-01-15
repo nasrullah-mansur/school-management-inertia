@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Month;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,7 +30,6 @@ class YearController extends Controller
         $year->save();
 
         return redirect()->route('year.index')->with('success', "আপনি সফলভাবে শিক্ষাবর্ষ যুক্ত করেছেন");
-        // return to_route('year.index');
     }
 
     public function edit($id) {
@@ -56,14 +54,5 @@ class YearController extends Controller
 
         return redirect()->route('year.index')->with('success', "আপনি সফলভাবে শিক্ষাবর্ষ এডিট করেছেন");
     }
-    public function delete($id) {
-        $year = Year::where('id', $id)->firstOrFail(); 
-        $month = Month::where('year_id', $year->id)->first();
-        if($month) {
-            return redirect()->back()->withErrors(['error' => 'এই বর্ষে এখনও একটি মাস সংযুক্ত আছে। এটি মুছে ফেলা সম্ভব নয়।']);
-        } else {
-            $year->delete();
-            return redirect()->route('year.index')->with('success', "আপনি সফলভাবে শিক্ষাবর্ষ রিমুভ করেছেন");
-        }
-    }
+    
 }

@@ -4,6 +4,7 @@ import PageHeader from "../Components/PageHeader";
 import TableRow from "../Components/TableRow";
 import TableData from "../Components/TableData";
 import Table from "../Components/Table";
+import Status from "../Components/Status";
 
 export default function Show({ student }) {
     const tableHeaderOne = [];
@@ -73,21 +74,25 @@ export default function Show({ student }) {
                     </TableRow>
                     <TableRow>
                         <TableData>শিক্ষাবর্ষ ও বিভাগ</TableData>
-                        <TableData>
-                            {student.sector.sector} ({student.year.year})
-                        </TableData>
+                        <TableData>{student.sector.sector}</TableData>
                     </TableRow>
                     <TableRow>
                         <TableData>জন্ম নিবন্ধন নং</TableData>
-                        <TableData>{student.birth_no}</TableData>
+                        <TableData className="font-banglaTitle">
+                            {student.birth_no}
+                        </TableData>
                     </TableRow>
                     <TableRow>
                         <TableData>আই ডি কার্ড নং</TableData>
-                        <TableData>{student.nid_no}</TableData>
+                        <TableData className="font-banglaTitle">
+                            {student.nid_no}
+                        </TableData>
                     </TableRow>
                     <TableRow>
                         <TableData>স্টাটাস</TableData>
-                        <TableData>{student.status}</TableData>
+                        <TableData className="uppercase">
+                            <Status status={student.status} />
+                        </TableData>
                     </TableRow>
                 </Table>
             </div>

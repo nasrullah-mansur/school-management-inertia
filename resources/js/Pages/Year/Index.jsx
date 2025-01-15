@@ -37,29 +37,32 @@ export default function YearIndex({ years }) {
                 backLink={route("dashboard")}
                 addLink={route("year.create")}
             />
-            <Table headers={tableHeaders}>
+            <Table className="text-center" headers={tableHeaders}>
                 {years.map((year) => (
                     <TableRow key={year.id}>
-                        <TableData className="border">{year.year}</TableData>
-                        <TableData className="border">
+                        <TableData className="border text-center">
+                            {year.year}
+                        </TableData>
+                        <TableData className="border text-center">
                             {year.admissions_count
                                 ? year.admissions_count
-                                : "0"}
+                                : "0"}{" "}
+                            জন
                         </TableData>
-                        <TableData className="border">
+                        <TableData className="border text-center">
                             <Status status={year.status} />
                         </TableData>
-                        <TableData className="border font-banglaTitle">
+                        <TableData className="border font-banglaTitle text-center">
                             {moment(year.created_at).format(
                                 "MMM-D-YYYY, h:mm A"
                             )}
                         </TableData>
-                        <TableData className="border font-banglaTitle">
+                        <TableData className="border font-banglaTitle text-center">
                             {moment(year.updated_at).format(
                                 "MMM-D-YYYY, h:mm A"
                             )}
                         </TableData>
-                        <TableData className="border flex">
+                        <TableData className="border flex justify-center">
                             <EditBtn href={route("year.edit", year.id)} />
                         </TableData>
                     </TableRow>

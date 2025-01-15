@@ -41,35 +41,6 @@ class PDFController extends Controller
    
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function students_pdf() {
         $previousUrl = url()->previous(); 
         $previousUri = parse_url($previousUrl, PHP_URL_PATH);
@@ -77,18 +48,33 @@ class PDFController extends Controller
 
         if($previousUri === "/students/all") {
             // All Student;
+            return $admissions = Admission::with('year')
+            ->whereHas('year', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->orderBy('created_at', 'DESC')
+            ->get();
         }
 
         if (str_contains($previousUri, 'find')) {
             // Find;
+            $id = $parts[3] ?? null;
+            return $admissions = Admission::with('year')
+                ->whereHas('year', function ($query) {
+                    $query->where('status', 'active');
+                })
+                ->where('reg_id', $id)
+                ->orWhere('phone', $id)
+                ->orderBy('created_at', 'DESC')
+                ->get();
         } 
-        
-        else {
+
+        if (str_contains($previousUri, 'filter')) {
+            // filter;
             $year_id = $parts[4] ?? null;
             $sector_id = $parts[5] ?? null;
             $status = $parts[6] ?? null;
-
-            $admissions = Admission::with('year')
+           return $admissions = Admission::with('year')
             ->whereHas('year', function ($query) {
                 $query->where('status', 'active');
             })
@@ -103,20 +89,39 @@ class PDFController extends Controller
             })
             ->orderBy('created_at', 'DESC')
             ->get();
-
-            $fileName = "allStudents.pdf";
-            $pdf = Pdf::loadView("pdf.students", $admissions->toArray());
-            return $pdf->download($fileName);
+            
+        }
+        
+        else {
+            
         }
         
        
-
-       
-
-    //    $fileName = "allStudents.pdf";
-    //    $pdf = Pdf::loadView("pdf.students", $admissions);
-    //    return $pdf->download($fileName);
     }
 
 
 }
+
+// $year_id = $parts[4] ?? null;
+//             $sector_id = $parts[5] ?? null;
+//             $status = $parts[6] ?? null;
+
+//             $admissions = Admission::with('year')
+//             ->whereHas('year', function ($query) {
+//                 $query->where('status', 'active');
+//             })
+//             ->when($year_id && $year_id !== "all", function ($query) use ($year_id) {
+//                 $query->where('year_id', $year_id);
+//             })
+//             ->when($sector_id && $sector_id !== "all", function ($query) use ($sector_id) {
+//                 $query->where('sector_id', $sector_id);
+//             })
+//             ->when($status && $status !== "all", function ($query) use ($status) {
+//                 $query->where('status', $status);
+//             })
+//             ->orderBy('created_at', 'DESC')
+//             ->get();
+
+//             $fileName = "allStudents.pdf";
+//             $pdf = Pdf::loadView("pdf.students", $admissions->toArray());
+//             return $pdf->download($fileName);

@@ -12,7 +12,6 @@ export default function SectorEdit({ years, sector }) {
         id: sector.id,
         sector: sector.sector,
         year_id: sector.year_id,
-        prefix: sector.prefix,
         status: sector.status,
     });
 
@@ -78,20 +77,6 @@ export default function SectorEdit({ years, sector }) {
                         </span>
                     )}
 
-                    <TextInput
-                        type="text"
-                        label="একটি প্রিফিক্স লিখুন"
-                        placeholder="এখানে লিখুন"
-                        name="prefix"
-                        value={data.prefix}
-                        onChange={(e) => setData("prefix", e.target.value)}
-                    />
-                    {errors.prefix && (
-                        <span className="text-red-500 text-sm">
-                            {errors.prefix}
-                        </span>
-                    )}
-
                     <Select
                         styles={select2style}
                         isSearchable={false}
@@ -109,7 +94,7 @@ export default function SectorEdit({ years, sector }) {
                         className="blue-btn"
                     >
                         <span className="font-banglaTitle">
-                            বিভাগটি এডিট করুন
+                            বিভাগটি আপডেট করুন
                         </span>
                     </button>
                 </form>

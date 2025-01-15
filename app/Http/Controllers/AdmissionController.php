@@ -13,8 +13,8 @@ use Inertia\Inertia;
 class AdmissionController extends Controller
 {
     public function index() {
-        $years = Year::all();
-        $sectors = Sector::all();
+        $years = Year::where('status', "active")->get();
+        $sectors = Sector::where('status', "active")->get();
         $admissions = Admission::with('year')
         ->whereHas('year', function ($query) {
             $query->where('status', 'active');
@@ -34,7 +34,7 @@ class AdmissionController extends Controller
     }
 
     public function view($id) {
-        $student = Admission::with('year', 'user', 'sector')->where('id', $id)->firstOrFail();
+        $student = Admission::with('user', 'sector')->where('id', $id)->firstOrFail();
         return Inertia::render("Student/Show", ["student" => $student]);
     }
 

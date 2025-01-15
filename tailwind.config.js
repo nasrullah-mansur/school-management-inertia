@@ -18,12 +18,6 @@ export default {
                 bangla: ["Noto Serif Bengali", "serif"],
             },
         },
-        fontSize: {
-            sm: ["14px", "20px"],
-            base: ["16px", "24px"],
-            lg: ["18px", "28px"],
-            xl: ["24px", "32px"],
-        },
     },
 
     plugins: [forms],

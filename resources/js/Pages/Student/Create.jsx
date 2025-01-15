@@ -65,7 +65,7 @@ export default function StudentCreate({ years, sectors }) {
                 >
                     <div className="col-span-1 !m-0">
                         <TextInput
-                            label="ছাতের পূর্ণ নাম"
+                            label="ছাত্রের পূর্ণ নাম"
                             placeholder="এখানে লিখুন"
                             name="name"
                             value={data.name}
@@ -279,15 +279,17 @@ export default function StudentCreate({ years, sectors }) {
                             </span>
                         )}
                     </div>
-                    <button
-                        disabled={processing}
-                        type="submit"
-                        className="blue-btn"
-                    >
-                        <span className="font-banglaTitle">
-                            ছাত্রের ভর্তি কনফার্ম করুন
-                        </span>
-                    </button>
+                    <div className="mt-0">
+                        <button
+                            disabled={processing}
+                            type="submit"
+                            className="blue-btn"
+                        >
+                            <span className="font-banglaTitle">
+                                ছাত্রের ভর্তি কনফার্ম করুন
+                            </span>
+                        </button>
+                    </div>
                 </form>
 
                 {processing && <Loading />}

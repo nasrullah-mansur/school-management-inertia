@@ -68,6 +68,7 @@ export default function SectorCreate({ years }) {
 
                     <TextInput
                         label="একটি প্রিফিক্স লিখুন"
+                        label2="(এটি পরিবর্তনযোগ্য নয়)"
                         placeholder="এখানে লিখুন"
                         name="prefix"
                         value={data.prefix}

@@ -36,32 +36,32 @@ export default function SectorIndex({ sectors }) {
                 addLink={route("sector.create")}
             />
 
-            <Table headers={tableHeaders}>
+            <Table className="text-center" headers={tableHeaders}>
                 {sectors.map((sector) => (
                     <TableRow key={sector.id}>
-                        <TableData className="border">
+                        <TableData className="border text-center">
                             {sector.sector}
                         </TableData>
-                        <TableData className="border">
+                        <TableData className="border text-center font-banglaTitle font-semibold text-blue-600">
                             {sector.prefix}
                         </TableData>
-                        <TableData className="border">
+                        <TableData className="border text-center">
                             {sector.admissions_count}
                         </TableData>
-                        <TableData className="border">
+                        <TableData className="border text-center">
                             <Status status={sector.status} />
                         </TableData>
-                        <TableData className="border font-banglaTitle">
+                        <TableData className="border font-banglaTitle text-center">
                             {moment(sector.created_at).format(
                                 "MMM-D-YYYY, h:mm A"
                             )}
                         </TableData>
-                        <TableData className="border font-banglaTitle">
+                        <TableData className="border font-banglaTitle text-center">
                             {moment(sector.updated_at).format(
                                 "MMM-D-YYYY, h:mm A"
                             )}
                         </TableData>
-                        <TableData className="border flex">
+                        <TableData className="border flex justify-center">
                             <EditBtn href={route("sector.edit", sector.id)} />
                         </TableData>
                     </TableRow>

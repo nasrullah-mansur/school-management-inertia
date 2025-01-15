@@ -1,21 +1,33 @@
-import { usePage } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Navbar() {
     const [dropdown, setDropdown] = useState(false);
     const { auth } = usePage().props;
+    const { post } = useForm();
+
+    const signOutHandler = (e) => {
+        post(
+            route("logout"),
+            {},
+            {
+                onSuccess: () => {
+                    console.log("Logged out successfully");
+                },
+            }
+        );
+    };
 
     return (
         <>
             <nav className={`bg-white border-b dark:bg-gray-900`}>
                 <div className="max-w-screen-2xl flex flex-wrap items-center mx-auto px-4 py-3">
-                    <p className="text-md text-green-600 hidden md:block font-banglaTitle">
-                        |{" "}
-                        <span className="font-semibold ">
+                    <p className="text-md text-green-600 text-xl hidden md:block font-banglaTitle">
+                        <span className="font-semibold text-xl">
                             {auth?.user?.name}
                         </span>
                         {" কে "}
-                        মাদরাসার ড্যশবোর্ড প্যনেলে স্বাগতম
+                        ড্যশবোর্ড প্যনেলে স্বাগতম
                     </p>
                     <a
                         href="https://flowbite.com/"
@@ -50,52 +62,37 @@ export default function Navbar() {
 
                         {dropdown && (
                             <div
-                                className="z-10 absolute border right-0 top-6 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                                className="z-10 pb-4 text-center absolute border right-0 top-6 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                                 id="user-dropdown"
                             >
                                 <div className="px-4 py-3">
-                                    <span className="block text-sm text-gray-900 dark:text-white">
-                                        Bonnie Green
+                                    <span className="block text-sm text-gray-900 dark:text-white font-banglaTitle">
+                                        {auth?.user?.name}
                                     </span>
-                                    <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                                        name@flowbite.com
+                                    <span className="block text-sm  text-gray-500 truncate dark:text-gray-400 font-banglaTitle">
+                                        {auth?.user?.email}
                                     </span>
                                 </div>
                                 <ul
                                     className="py-2"
                                     aria-labelledby="user-menu-button"
                                 >
-                                    <li>
+                                    <li className="mb-2">
                                         <a
                                             href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                            className="font-banglaTitle block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                         >
-                                            Dashboard
+                                            My Profile
                                         </a>
                                     </li>
+
                                     <li>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                        >
-                                            Settings
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                        >
-                                            Earnings
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        <button
+                                            onClick={signOutHandler}
+                                            className="mx-auto font-banglaTitle bg-red-700 text-white block px-4 py-2 text-sm hover:bg-red-600 rounded dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                         >
                                             Sign out
-                                        </a>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
