@@ -3,31 +3,72 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admission;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
+use Mpdf\Mpdf;
+use PDF;
 
 class PDFController extends Controller
 {
-    public function vorti_pdf($reg_id) {
-        return 'ok';
-         $admission = Admission::where('reg_id', $reg_id)->firstOrFail();
+    public function vorti_pdf($id)
+    {
+        $student = Admission::where('id', $id)->with('year', 'user', 'sector')->firstOrFail();
 
-        $data = [
-            'name' => $admission->name,
-            'father_name' => $admission->father_name,
-            'birth' => $admission->birth_day,
-            'phone' => $admission->phone,
-            'reg_id' => $admission->reg_id,
-            'year' => $admission->year->year,
-            'sector' => $admission->sector->sector,
-        ];
+        $mpdf =new Mpdf([
+            // 'mode' => "UTF-8",
+            // 'autoScriptToLang' => true,
+            // 'autoLangToFont' => true,
+            'default_font_size' => 12,
+            'default_font' => 'kalpurush',
+            'format' => 'A5',
+            'margin_left' => 10, // Adjust left margin (default is 15)
+            'margin_right' => 10, // Adjust right margin (default is 15)
+            'margin_top' => 12, // Adjust top margin (default is 16)
+            'margin_bottom' => 12, // Adjust bottom margin (default is 16)
+        ]);
 
-        $fileName = $admission->reg_id . ".pdf";
+        $html = view('pdf.vorti', compact('student'))->render();
 
-       $pdf = Pdf::loadView("pdf.vorti", $data);
+        $mpdf->WriteHTML($html);
 
-       return $pdf->download($fileName);
+        $fileName = $student->reg_id;
+        $mpdf->SetTitle($fileName);
+
+        return $mpdf->OutputHttpDownload($student->reg_id . '.pdf');
+
+        // return response($mpdf->Output(), 200, [
+        //     'Content-Type' => 'application/pdf',
+        //     'Content-Disposition' => 'inline filename='. $fileName .''
+        // ]);
+   
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function students_pdf() {
         $previousUrl = url()->previous(); 

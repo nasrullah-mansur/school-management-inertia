@@ -11,7 +11,7 @@ export default function YearEdit({ year }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         year: year.year,
         id: year.id,
-        status: year.status,
+        status: "active",
     });
 
     function submit(e) {

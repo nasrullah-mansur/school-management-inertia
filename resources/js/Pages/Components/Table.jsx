@@ -4,7 +4,7 @@ export default function Table({ children, headers }) {
             <table className="w-full border text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        {headers.map((header, index) => (
+                        {headers?.map((header, index) => (
                             <th
                                 key={index}
                                 scope="col"

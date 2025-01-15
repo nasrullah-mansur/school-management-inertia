@@ -214,12 +214,14 @@ export default function StudentIndex({ admissions, years, sectors }) {
                                         )}
                                     />
                                     <DownloadBtn
+                                        href={route("vorti.pdf", student.id)}
+                                    />
+                                    <ViewBtn
                                         href={route(
-                                            "vorti.pdf",
-                                            student.reg_id
+                                            "admission.view",
+                                            student.id
                                         )}
                                     />
-                                    <ViewBtn />
                                 </TableData>
                             </TableRow>
                         ))}

@@ -10,10 +10,9 @@ use Inertia\Inertia;
 
 class SearchController extends Controller
 {
-    // Student S
+    // Student;
     public function create() {
         return Inertia::render("Search/View");
-
     }
 
     public function search_form(Request $request) {

@@ -62,21 +62,22 @@ Route::middleware(["auth"])->group(function() {
     Route::get('students/all', [AdmissionController::class, 'index'])->name('admission.index');
     Route::get('student/admission', [AdmissionController::class, 'create'])->name('admission.create');
     Route::post('student/admission', [AdmissionController::class, 'store'])->name('admission.store');
+    Route::get('/student/view/{id}', [AdmissionController::class, 'view'])->name('admission.view');
     Route::get('student/edit/{id}', [AdmissionController::class, 'edit'])->name('admission.edit');
     Route::post('student/admission/{id}', [AdmissionController::class, 'update'])->name('admission.update');
 
+
     // Student Search Route;
-    // Route::get('/student/find', [SearchController::class, 'create'])->name("search.view");
     Route::post('/student/find/', [SearchController::class, 'search_form'])->name('search.post');
     Route::get('/student/find/{id}', [SearchController::class, 'search_result'])->name('search.get');
     Route::get('/student/result/{reg_id}', [SearchController::class, 'single_view'])->name('search.single');
-
+    
 
     Route::post('/student/filter', [SearchController::class, 'search_filter'])->name('search.filter');
     Route::get('/student/filter/result/{year_id}/{sector_id}/{status}', [SearchController::class, 'search_filter_result'])->name('search.filter.result');
 
     // PDF;
-    Route::get('/pdf/vorti/{reg_no}', [PDFController::class, 'vorti_pdf'])->name('vorti.pdf');
+    Route::get('/pdf/vorti/{id}', [PDFController::class, 'vorti_pdf'])->name('vorti.pdf');
     Route::get('/pdf/download/students', [PDFController::class, 'students_pdf'])->name('students.pdf');
 
     // Mony For;

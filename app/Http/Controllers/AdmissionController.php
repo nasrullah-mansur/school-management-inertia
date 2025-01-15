@@ -33,6 +33,11 @@ class AdmissionController extends Controller
         ]);
     }
 
+    public function view($id) {
+        $student = Admission::with('year', 'user', 'sector')->where('id', $id)->firstOrFail();
+        return Inertia::render("Student/Show", ["student" => $student]);
+    }
+
     public function store(Request $request) {
         // return $request;
         $request->validate([
@@ -144,9 +149,6 @@ class AdmissionController extends Controller
 
         return redirect()->route('admission.index')->with('success', "ছাত্রের ভর্তি তথ্য সফলভাবে আপডেট হয়েছে");
 
-    }
-
-    
-    
+    } 
 }
 

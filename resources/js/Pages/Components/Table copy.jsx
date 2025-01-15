@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function Table({ data, headers }) {
-    console.log(data);
-
     return (
         <div className="relative overflow-x-auto ">
             <table className="w-full border text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
