@@ -8,6 +8,8 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     function dashboard() {
-        return Inertia::render('Dashboard'); 
+        $dashboardPath = resource_path('js/Pages/Dashboard.jsx');
+        
+        return Inertia::render('Dashboard');
     }
 }

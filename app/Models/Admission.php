@@ -21,4 +21,10 @@ class Admission extends Model
     public function getSectorNameAttribute() {
         return $this->sector->sector;
     }
+
+    public function getAdmissionByAttribute() {
+        return $this->user->name;
+    }
+
+
 }

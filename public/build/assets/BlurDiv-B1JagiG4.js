@@ -1,0 +1,1 @@
+import{j as e}from"./app-8ICf-Exk.js";function r(){return e.jsx("div",{className:"z-40 fixed top-0 left-0 w-full h-screen inset-0 backdrop-blur bg-black/40 flex items-center justify-center"})}export{r as default};

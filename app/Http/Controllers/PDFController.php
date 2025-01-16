@@ -45,10 +45,10 @@ class PDFController extends Controller
         $fields = [
             'name', 'reg_id', 'form_no', 'father_name', 'birth_day', 'phone as phone_1', 
             'phone_2', 'phone_3', 'birth_no', 'nid_no', 'village', 'post', 'thana', 'zila', 
-            'status', 'created_at', 'sector_id', 'created_at'
+            'status', 'created_at', 'sector_id', 'created_at', 'user_id',
         ];
 
-        $query = Admission::with('year')->whereHas('year', function ($query) {
+        $query = Admission::with('year', 'user')->whereHas('year', function ($query) {
             $query->where('status', 'active');
         });
 
@@ -146,10 +146,13 @@ class PDFController extends Controller
             $admission->date = $admission->created_at ? Carbon::parse($admission->created_at)->format('d-M-Y') : null;
 
             // Format User;
-            $admission->admission_by = $admission->user->name ? $admission->user->name : null;
+            $admission->new_user = $admission->user->name ?? null;
 
             // Remove sector_id if not needed
             unset($admission->sector_id);
+            unset($admission->user_id);
+            
+
         });
 
         return $collection;
