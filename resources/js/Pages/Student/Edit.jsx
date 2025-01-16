@@ -14,29 +14,38 @@ export default function StudentEdit({ sectors, student }) {
         year_id: student.year_id,
         form_no: student.form_no,
         father_name: student.father_name,
-        birth_day: student.birth_day,
-        phone: student.phone,
-        birth_no: student.birth_no,
-        nid_no: student.nid_no,
-        village: student.village,
-        post: student.post,
-        thana: student.thana,
-        zila: student.zila,
-        phone_2: student.phone_2,
-        phone_3: student.phone_3,
-        status: "active",
+        birth_day: student.birth_day ? student.birth_day : "",
+        phone: student.phone ? student.phone : "",
+        birth_no: student.birth_no ? student.birth_no : "",
+        nid_no: student.nid_no ? student.nid_no : "",
+        village: student.village ? student.village : "",
+        post: student.post ? student.post : "",
+        thana: student.thana ? student.thana : "",
+        zila: student.zila ? student.zila : "",
+        phone_2: student.phone_2 ? student.phone_2 : "",
+        phone_3: student.phone_3 ? student.phone_3 : "",
+        status: student.status ? student.status : "",
     });
 
     const selectSectors = sectors.map((s) => {
         return { value: s.id, label: s.sector };
     });
 
+    const getActiveSector = (id) => {
+        let getIndex = selectSectors.findIndex((i) => i.value == id);
+        return selectSectors[getIndex];
+    };
     const statusOptionsCustom = [
         { value: "all", label: "সকল স্টাটাস" },
         { value: "active", label: "নিয়মিত" },
         { value: "inactive", label: "বিদায়ী" },
         { value: "past", label: "বিগত ছাত্র" },
     ];
+
+    const getActiveStatus = (value) => {
+        let getIndex = statusOptionsCustom.findIndex((i) => i.value == value);
+        return statusOptionsCustom[getIndex];
+    };
 
     function submit(e) {
         e.preventDefault();
@@ -107,12 +116,8 @@ export default function StudentEdit({ sectors, student }) {
                             styles={select2style}
                             isSearchable={false}
                             name="sector_id"
-                            onChange={(e) =>
-                                setData("sector_id", e ? e.value : null)
-                            }
-                            value={selectSectors.find(
-                                (option) => option.value == student.sector_id
-                            )}
+                            onChange={(e) => setData("sector_id", e.value)}
+                            defaultValue={getActiveSector(student.sector_id)}
                             options={selectSectors}
                         />
                         {errors.sector_id && (
@@ -120,6 +125,24 @@ export default function StudentEdit({ sectors, student }) {
                                 {errors.sector_id}
                             </span>
                         )}
+                    </div>
+                    <div className="!m-0">
+                        <label
+                            htmlFor="status"
+                            className="block mb-2 font-medium text-gray-900 dark:text-white"
+                        >
+                            স্টাটাস সিলেক্ট করুন
+                        </label>
+                        <Select
+                            styles={select2style}
+                            isSearchable={false}
+                            name="status"
+                            onChange={(e) =>
+                                setData("status", e?.value || "নিয়মিত")
+                            }
+                            defaultValue={getActiveStatus(data.status)}
+                            options={statusOptionsCustom}
+                        />
                     </div>
                     <div className="col-span-1 !m-0">
                         <TextInput
@@ -146,6 +169,22 @@ export default function StudentEdit({ sectors, student }) {
                         {errors.phone && (
                             <span className="text-red-500 text-sm">
                                 {errors.phone}
+                            </span>
+                        )}
+                    </div>
+                    <div className="col-span-1 !m-0">
+                        <TextInput
+                            label="জন্ম তারিখ"
+                            placeholder="এখানে লিখুন"
+                            name="birth_day"
+                            value={data.birth_day}
+                            onChange={(e) =>
+                                setData("birth_day", e.target.value)
+                            }
+                        />
+                        {errors.birth_day && (
+                            <span className="text-red-500 text-sm">
+                                {errors.birth_day}
                             </span>
                         )}
                     </div>
@@ -263,33 +302,18 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="!m-0">
-                        <label
-                            htmlFor="status"
-                            className="block mb-2 font-medium text-gray-900 dark:text-white"
+
+                    <div className="col-span-2">
+                        <button
+                            disabled={processing}
+                            type="submit"
+                            className="blue-btn"
                         >
-                            স্টাটাস সিলেক্ট করুন
-                        </label>
-                        <Select
-                            styles={select2style}
-                            isSearchable={false}
-                            name="status"
-                            onChange={(e) =>
-                                setData("status", e?.value || "নিয়মিত")
-                            }
-                            defaultValue={{ value: "active", label: "নিয়মিত" }}
-                            options={statusOptionsCustom}
-                        />
+                            <span className="font-banglaTitle">
+                                ছাত্রের আপডেট তথ্য সেভ করুন
+                            </span>
+                        </button>
                     </div>
-                    <button
-                        disabled={processing}
-                        type="submit"
-                        className="blue-btn"
-                    >
-                        <span className="font-banglaTitle">
-                            ছাত্রের তথ্য আপডেটে কনফার্ম করুন
-                        </span>
-                    </button>
                 </form>
 
                 {processing && <Loading />}

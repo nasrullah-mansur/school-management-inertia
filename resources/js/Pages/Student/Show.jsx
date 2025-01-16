@@ -5,6 +5,7 @@ import TableRow from "../Components/TableRow";
 import TableData from "../Components/TableData";
 import Table from "../Components/Table";
 import Status from "../Components/Status";
+import { getDateTime } from "@/utils/dateTime";
 
 export default function Show({ student }) {
     const tableHeaderOne = [];
@@ -58,19 +59,27 @@ export default function Show({ student }) {
                     </TableRow>
                     <TableRow>
                         <TableData>ফোন নং ০১</TableData>
-                        <TableData>{student.phone}</TableData>
+                        <TableData className="font-banglaTitle">
+                            {student.phone}
+                        </TableData>
                     </TableRow>
                     <TableRow>
                         <TableData>ফোন নং ০২</TableData>
-                        <TableData>{student.phone_2}</TableData>
+                        <TableData className="font-banglaTitle">
+                            {student.phone_2}
+                        </TableData>
                     </TableRow>
                     <TableRow>
                         <TableData>ফোন নং ০৩</TableData>
-                        <TableData>{student.phone_3}</TableData>
+                        <TableData className="font-banglaTitle">
+                            {student.phone_3}
+                        </TableData>
                     </TableRow>
                     <TableRow>
                         <TableData>ভর্তির তারিখ </TableData>
-                        <TableData>{student.created_at}</TableData>
+                        <TableData className="font-banglaTitle">
+                            {getDateTime(student.created_at)}
+                        </TableData>
                     </TableRow>
                     <TableRow>
                         <TableData>শিক্ষাবর্ষ ও বিভাগ</TableData>

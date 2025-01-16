@@ -2,64 +2,103 @@
 
 namespace App\Http\Controllers;
 
+use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\Admission;
+use Carbon\Carbon;
 use Mpdf\Mpdf;
-use PDF;
 
 class PDFController extends Controller
 {
+    // Generate a PDF for a single student based on their ID
     public function vorti_pdf($id)
     {
-        $student = Admission::where('id', $id)->with('year', 'user', 'sector')->firstOrFail();
+        $student = Admission::where('id', $id)
+            ->with('year', 'user', 'sector')
+            ->firstOrFail();
 
-        $mpdf =new Mpdf([
-            // 'mode' => "UTF-8",
-            // 'autoScriptToLang' => true,
-            // 'autoLangToFont' => true,
+        $mpdf = new Mpdf([
             'default_font_size' => 12,
             'default_font' => 'kalpurush',
             'format' => 'A5',
-            'margin_left' => 10, // Adjust left margin (default is 15)
-            'margin_right' => 10, // Adjust right margin (default is 15)
-            'margin_top' => 12, // Adjust top margin (default is 16)
-            'margin_bottom' => 12, // Adjust bottom margin (default is 16)
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 12,
+            'margin_bottom' => 12,
         ]);
 
         $html = view('pdf.vorti', compact('student'))->render();
-
         $mpdf->WriteHTML($html);
 
         $fileName = $student->reg_id;
         $mpdf->SetTitle($fileName);
 
         return $mpdf->OutputHttpDownload($student->reg_id . '.pdf');
-
-        // return response($mpdf->Output(), 200, [
-        //     'Content-Type' => 'application/pdf',
-        //     'Content-Disposition' => 'inline filename='. $fileName .''
-        // ]);
-   
     }
 
-    public function students_pdf() {
-        $previousUrl = url()->previous(); 
+    // Generate an Excel file for a list of students based on the URL
+    public function students_pdf()
+    {
+        $previousUrl = url()->previous();
         $previousUri = parse_url($previousUrl, PHP_URL_PATH);
         $parts = array_filter(explode('/', $previousUri));
 
-        if($previousUri === "/students/all") {
-            // All Student;
-            return $admissions = Admission::with('year')
-            ->whereHas('year', function ($query) {
-                $query->where('status', 'active');
-            })
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        $fields = [
+            'name', 'reg_id', 'form_no', 'father_name', 'birth_day', 'phone as phone_1', 
+            'phone_2', 'phone_3', 'birth_no', 'nid_no', 'village', 'post', 'thana', 'zila', 
+            'status', 'created_at', 'sector_id', 'created_at'
+        ];
+
+        $query = Admission::with('year')->whereHas('year', function ($query) {
+            $query->where('status', 'active');
+        });
+
+        // Handle different URL cases for filtering
+        if ($previousUri === "/students/all") {
+            // All Students
+            $admissions = $query->orderBy('created_at', 'DESC')->get($fields);
+        } elseif (str_contains($previousUri, 'find')) {
+            // Find by ID or Phone
+            $id = $parts[3] ?? null;
+
+            // Try to parse $id as a date, else handle as reg_id or phone
+            $admissions = $this->handleFindRequest($id);
+        } elseif (str_contains($previousUri, 'filter')) {
+            // Filter by year, sector, and status
+            $admissions = $this->handleFilterRequest($parts);
+        } else {
+            return response()->json(['message' => 'Invalid request'], 400);
         }
 
-        if (str_contains($previousUri, 'find')) {
-            // Find;
-            $id = $parts[3] ?? null;
-            return $admissions = Admission::with('year')
+        $updateCollections = $this->getExcel($admissions);
+        return (new FastExcel($updateCollections))->download('students.xlsx');
+    }
+
+    // Helper function to handle search by ID or Phone, including date filtering
+    private function handleFindRequest($id)
+    {
+        try {
+            // Attempt to parse as a date
+            $d = Carbon::createFromFormat('d-M-Y', $id);
+        } catch (\Exception $e) {
+            // Invalid date format, proceed with reg_id or phone
+            $d = null;
+        }
+
+        // Handle admissions based on parsed date or reg_id/phone
+        if ($d != null) {
+            return Admission::with('year')
+                ->whereHas('year', function ($query) {
+                    $query->where('status', 'active');
+                })
+                ->where(function ($query) use ($id, $d) {
+                    $query->where('reg_id', $id)
+                        ->orWhereDate('created_at', $d)
+                        ->orWhere('created_at', $d);
+                })
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        } else {
+            return Admission::with('year')
                 ->whereHas('year', function ($query) {
                     $query->where('status', 'active');
                 })
@@ -67,61 +106,52 @@ class PDFController extends Controller
                 ->orWhere('phone', $id)
                 ->orderBy('created_at', 'DESC')
                 ->get();
-        } 
+        }
+    }
 
-        if (str_contains($previousUri, 'filter')) {
-            // filter;
-            $year_id = $parts[4] ?? null;
-            $sector_id = $parts[5] ?? null;
-            $status = $parts[6] ?? null;
-           return $admissions = Admission::with('year')
+    // Helper function to handle filter request by year, sector, and status
+    private function handleFilterRequest($parts)
+    {
+        return Admission::with('year')
             ->whereHas('year', function ($query) {
                 $query->where('status', 'active');
             })
-            ->when($year_id && $year_id !== "all", function ($query) use ($year_id) {
-                $query->where('year_id', $year_id);
+            ->when($parts[4] ?? null, function ($query, $year_id) {
+                if ($year_id !== "all") {
+                    $query->where('year_id', $year_id);
+                }
             })
-            ->when($sector_id && $sector_id !== "all", function ($query) use ($sector_id) {
-                $query->where('sector_id', $sector_id);
+            ->when($parts[5] ?? null, function ($query, $sector_id) {
+                if ($sector_id !== "all") {
+                    $query->where('sector_id', $sector_id);
+                }
             })
-            ->when($status && $status !== "all", function ($query) use ($status) {
-                $query->where('status', $status);
+            ->when($parts[6] ?? null, function ($query, $status) {
+                if ($status !== "all") {
+                    $query->where('status', $status);
+                }
             })
             ->orderBy('created_at', 'DESC')
             ->get();
-            
-        }
-        
-        else {
-            
-        }
-        
-       
     }
 
+    // Format and modify the admission collection before exporting
+    public function getExcel($collection)
+    {
+        $collection->each(function ($admission) {
+            // Add sector_name if sector exists
+            $admission->sector_name = $admission->sector->name ?? null;
 
+            // Format created_at date
+            $admission->date = $admission->created_at ? Carbon::parse($admission->created_at)->format('d-M-Y') : null;
+
+            // Format User;
+            $admission->admission_by = $admission->user->name ? $admission->user->name : null;
+
+            // Remove sector_id if not needed
+            unset($admission->sector_id);
+        });
+
+        return $collection;
+    }
 }
-
-// $year_id = $parts[4] ?? null;
-//             $sector_id = $parts[5] ?? null;
-//             $status = $parts[6] ?? null;
-
-//             $admissions = Admission::with('year')
-//             ->whereHas('year', function ($query) {
-//                 $query->where('status', 'active');
-//             })
-//             ->when($year_id && $year_id !== "all", function ($query) use ($year_id) {
-//                 $query->where('year_id', $year_id);
-//             })
-//             ->when($sector_id && $sector_id !== "all", function ($query) use ($sector_id) {
-//                 $query->where('sector_id', $sector_id);
-//             })
-//             ->when($status && $status !== "all", function ($query) use ($status) {
-//                 $query->where('status', $status);
-//             })
-//             ->orderBy('created_at', 'DESC')
-//             ->get();
-
-//             $fileName = "allStudents.pdf";
-//             $pdf = Pdf::loadView("pdf.students", $admissions->toArray());
-//             return $pdf->download($fileName);

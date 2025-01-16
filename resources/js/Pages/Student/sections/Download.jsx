@@ -15,7 +15,7 @@ export default function Download({ years, sectors }) {
                     className="px-4 mr-2 h-12 rounded-sm bg-blue-600 cursor-pointer flex justify-center items-center text-white"
                 >
                     <span className="font-banglaTitle font-medium mr-2">
-                        Download PDF
+                        Excel
                     </span>
                     <LuDownload />
                 </a>

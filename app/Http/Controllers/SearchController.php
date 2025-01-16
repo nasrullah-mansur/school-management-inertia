@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admission;
 use App\Models\Sector;
 use App\Models\Year;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,19 +25,61 @@ class SearchController extends Controller
 
     }
 
-    public function search_result($id) {
-        $admissions = Admission::with('year')
-        ->whereHas('year', function ($query) {
-            $query->where('status', 'active');
-        })
-        ->where('reg_id', $id)
-        ->orWhere('phone', $id)
-        ->orderBy('created_at', 'DESC')
-        ->paginate(10);
+
+
+    public function search_result($id)
+    {
+
+        try {
+            // Create a Carbon instance
+            $d = Carbon::createFromFormat('d-M-Y', $id);
+        } catch (\Exception $e) {
+            // Handle error: Invalid format
+            $d = null;
+        }
+
+        // dd($d);
+
+        // Retrieve admissions with associated year
+        if($d != null) {
+            $admissions = Admission::with('year')
+            ->whereHas('year', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->where(function ($query) use ($id, $d) {
+                $query->where('reg_id', $id)
+            ->orWhereDate('created_at', $d)
+                      ->orWhere('created_at', $d);
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+        } 
+        
+        else {
+            $admissions = Admission::with('year')
+                ->whereHas('year', function ($query) {
+                    $query->where('status', 'active');
+                })
+                ->where('reg_id', $id)
+                ->orWhere('phone', $id)
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
+        }
+
+
+
+        // Retrieve active years and sectors
         $years = Year::where('status', "active")->get();
         $sectors = Sector::where('status', "active")->get();
-        return Inertia::render("Student/Index", ['admissions' => $admissions, "years" => $years, "sectors" => $sectors]);
+
+        // Pass data to the view
+        return Inertia::render("Student/Index", [
+            'admissions' => $admissions,
+            'years' => $years,
+            'sectors' => $sectors,
+        ]);
     }
+
 
     public function search_filter(Request $request) {
         return redirect()->route('search.filter.result', [$request->year_id, $request->sector_id, $request->status]);

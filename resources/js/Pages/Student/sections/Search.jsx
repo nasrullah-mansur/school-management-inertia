@@ -17,7 +17,7 @@ export default function Search() {
     return (
         <form
             onSubmit={submit}
-            className="max-w-md min-w-80 mr-auto relative sm:order-2 md:order-1"
+            className="max-w-md min-w-96 mr-auto relative sm:order-2 md:order-1"
         >
             <label
                 htmlFor="default-search"
@@ -49,7 +49,7 @@ export default function Search() {
                     type="search"
                     id="default-search"
                     className={`block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
-                    placeholder="আই ডি বা ফোন নাম্বার দিয়ে খুঁজুন"
+                    placeholder="আই ডি, মাবাইল নং বা ভর্তির তারিখ দিয়ে খুঁজুন"
                 />
                 <button
                     disabled={form1.processing}

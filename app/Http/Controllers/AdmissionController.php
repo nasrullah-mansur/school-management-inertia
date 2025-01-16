@@ -15,7 +15,7 @@ class AdmissionController extends Controller
     public function index() {
         $years = Year::where('status', "active")->get();
         $sectors = Sector::where('status', "active")->get();
-        $admissions = Admission::with('year')
+        $admissions = Admission::with('year', 'sector')
         ->whereHas('year', function ($query) {
             $query->where('status', 'active');
         })
@@ -43,7 +43,6 @@ class AdmissionController extends Controller
         $request->validate([
             'name' => 'required|max:256', 
             'father_name' => "required|max:256",
-            'year_id' => 'required|numeric', 
             'sector_id' => 'required|numeric', 
             'form_no' => 'required|unique:admissions', 
             'phone' => 'required|max:256',
@@ -60,7 +59,7 @@ class AdmissionController extends Controller
 
         $admission = new Admission();
         $admission->name = $request->name;
-        $admission->year_id = $request->year_id;
+        
         $admission->sector_id = $request->sector_id;
         $admission->form_no = convertToEnglishFont($request->form_no);
         $admission->phone = convertToEnglishFont($request->phone);
@@ -73,6 +72,9 @@ class AdmissionController extends Controller
         $admission->thana = $request->thana;
         $admission->zila = $request->zila;
         $admission->status = $request->status;
+
+        $sector = Sector::where('id', $request->sector_id)->firstOrFail();
+        $admission->year_id = $sector->year->id;
         
         $admission->user_id = strval(Auth::user()->id);
         $admission->phone_2 = convertToEnglishFont($request->phone_2);
@@ -80,8 +82,7 @@ class AdmissionController extends Controller
         
         $sector = Sector::where('id', $request->sector_id)->firstOrFail();
 
-        $maxAdmission = Admission::where('year_id', $request->year_id)
-        ->where('sector_id', $request->sector_id)
+        $maxAdmission = Admission::where('id', $sector->id)
         ->count();
 
         $admission->reg_id = $sector->prefix .  str_pad($maxAdmission + 1, 3, '0', STR_PAD_LEFT) ;
@@ -144,6 +145,10 @@ class AdmissionController extends Controller
         $admission->user_id = strval(Auth::user()->id);
         $admission->phone_2 = convertToEnglishFont($request->phone_2);
         $admission->phone_3 = convertToEnglishFont($request->phone_3);
+
+        $sector = Sector::where('id', $request->sector_id)->firstOrFail();
+        $maxAdmission = Admission::where('id', $sector->id)->count();
+        $admission->reg_id = $sector->prefix .  str_pad($maxAdmission + 1, 3, '0', STR_PAD_LEFT) ;
 
         $admission->save();
 

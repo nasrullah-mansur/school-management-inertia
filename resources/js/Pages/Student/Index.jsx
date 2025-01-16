@@ -15,6 +15,7 @@ import Pagination from "../Components/Pagination";
 import ViewBtn from "../Components/ViewBtn";
 import Search from "./sections/Search";
 import Download from "./sections/Download";
+import { getDate } from "@/utils/dateTime";
 
 export default function StudentIndex({ admissions, years, sectors }) {
     const { flash } = usePage().props;
@@ -30,9 +31,9 @@ export default function StudentIndex({ admissions, years, sectors }) {
         "ছাত্রের নাম",
         "পিতার নাম",
         "মোবাইল নং",
+        "বিভাগ / বর্ষ",
         "স্টাটাস",
-        "তৈরীর তারিখ",
-        "আপডেটের তারিখ",
+        "ভর্তির তারিখ",
         "একশন",
     ];
 
@@ -72,18 +73,15 @@ export default function StudentIndex({ admissions, years, sectors }) {
                                     </span>
                                 </TableData>
                                 <TableData className="border">
+                                    {student.sector.sector}
+                                </TableData>
+                                <TableData className="border">
                                     <Status status={student.status} />
                                 </TableData>
                                 <TableData className="border font-banglaTitle">
-                                    {moment(student.created_at).format(
-                                        "MMM-D-YYYY"
-                                    )}
+                                    {getDate(student.created_at)}
                                 </TableData>
-                                <TableData className="border font-banglaTitle">
-                                    {moment(student.updated_at).format(
-                                        "MMM-D-YYYY"
-                                    )}
-                                </TableData>
+
                                 <TableData className="border flex">
                                     <EditBtn
                                         href={route(

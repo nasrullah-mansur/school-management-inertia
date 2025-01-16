@@ -17,4 +17,8 @@ class Admission extends Model
     public function sector() {
         return $this->belongsTo(Sector::class);
     }
+
+    public function getSectorNameAttribute() {
+        return $this->sector->sector;
+    }
 }

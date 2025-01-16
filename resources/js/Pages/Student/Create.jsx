@@ -12,7 +12,7 @@ export default function StudentCreate({ years, sectors }) {
         name: "",
         reg_id: "",
         sector_id: "",
-        year_id: "",
+
         form_no: "",
         father_name: "",
         birth_day: "",
@@ -93,28 +93,7 @@ export default function StudentCreate({ years, sectors }) {
                             </span>
                         )}
                     </div>
-                    <div className="!m-0 col-span-1">
-                        <label
-                            htmlFor="status"
-                            className="block mb-2 font-medium text-gray-900 dark:text-white"
-                        >
-                            শিক্ষাবর্ষ সিলেক্ট করুন
-                        </label>
-                        <Select
-                            styles={select2style}
-                            isSearchable={false}
-                            name="year_id"
-                            onChange={(e) =>
-                                setData("year_id", e?.value || "active")
-                            }
-                            options={selectYears}
-                        />
-                        {errors.year_id && (
-                            <span className="text-red-500 text-sm">
-                                {errors.year_id}
-                            </span>
-                        )}
-                    </div>
+
                     <div className="!m-0 col-span-1">
                         <label
                             htmlFor="status"
@@ -167,6 +146,22 @@ export default function StudentCreate({ years, sectors }) {
                     </div>
                     <div className="col-span-1 !m-0">
                         <TextInput
+                            label="জন্ম তারিখ"
+                            placeholder="এখানে লিখুন"
+                            name="birth_day"
+                            value={data.birth_day}
+                            onChange={(e) =>
+                                setData("birth_day", e.target.value)
+                            }
+                        />
+                        {errors.birth_day && (
+                            <span className="text-red-500 text-sm">
+                                {errors.birth_day}
+                            </span>
+                        )}
+                    </div>
+                    <div className="col-span-1 !m-0">
+                        <TextInput
                             label="জন্ম নিবন্ধন নং"
                             placeholder="এখানে লিখুন"
                             name="birth_no"
@@ -181,6 +176,7 @@ export default function StudentCreate({ years, sectors }) {
                             </span>
                         )}
                     </div>
+
                     <div className="col-span-1 !m-0">
                         <TextInput
                             label="এন আই ডি নং"
@@ -279,7 +275,8 @@ export default function StudentCreate({ years, sectors }) {
                             </span>
                         )}
                     </div>
-                    <div className="mt-0">
+
+                    <div className="mt-0 col-span-2">
                         <button
                             disabled={processing}
                             type="submit"

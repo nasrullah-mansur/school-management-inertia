@@ -10,6 +10,7 @@ import EditBtn from "../Components/EditBtn";
 import { usePage } from "@inertiajs/react";
 import { toast } from "react-toastify";
 import Status from "../Components/Status";
+import { getDateTime } from "@/utils/dateTime";
 
 export default function YearIndex({ years }) {
     const { flash } = usePage().props;
@@ -53,14 +54,10 @@ export default function YearIndex({ years }) {
                             <Status status={year.status} />
                         </TableData>
                         <TableData className="border font-banglaTitle text-center">
-                            {moment(year.created_at).format(
-                                "MMM-D-YYYY, h:mm A"
-                            )}
+                            {getDateTime(year.created_at)}
                         </TableData>
                         <TableData className="border font-banglaTitle text-center">
-                            {moment(year.updated_at).format(
-                                "MMM-D-YYYY, h:mm A"
-                            )}
+                            {getDateTime(year.updated_at)}
                         </TableData>
                         <TableData className="border flex justify-center">
                             <EditBtn href={route("year.edit", year.id)} />

@@ -1,11 +1,11 @@
 import moment from "moment";
 
-function getDate() {
-    return moment(sector.created_at).format("MMM-D-YYYY, h:mm A");
+function getDate(date) {
+    return moment(date).format("D-MMM-YYYY");
 }
 
-function getDateTime() {
-    return moment(sector.created_at).format("MMM-D-YYYY, h:mm A");
+function getDateTime(date) {
+    return moment(date).format("D-MMM-YYYY, h:mm A");
 }
 
 export { getDate, getDateTime };

@@ -50,7 +50,7 @@
         }
 
         .footer-table {
-            padding-top: 80px;
+            padding-top: 60px;
             border: 0;
         }
     </style>
@@ -84,15 +84,18 @@
             <td class="border">{{ $student->sector->sector }}</td>
         </tr>
         <tr>
-            <td class="border border-b-0 border-right">মোবাইল নং</td>
-            <td class="border border-b-0">{{ $student->phone }}</td>
+            <td class="border border-right">মোবাইল নং</td>
+            <td class="border">{{ $student->phone }}</td>
+        </tr>
+        <tr>
+            <td class="border border-b-0 border-right">ভর্তির তারিখ ও সময়</td>
+            <td class="border border-b-0">{{ $student->created_at->format('d-F-Y, h:i A') }}</td>
         </tr>
     </table>
 
     <!-- Footer Section -->
     <div class="footer-section">
-        <p class="footer-heading">আমাদের প্রতিষ্ঠানে আপনাকে এবং আপনার সন্তানকে স্বাগতম</p>
-        <p class="footer-text">দয়া করে দাখেলা বা রেজিস্ট্রেশন নাম্বারটি সংগ্রহে রাখবেন, পরবর্তিতে লেনদেন অন্য যেকোনো কাজে এটি প্রয়োজন হতে পারে।</p>
+        <p class="footer-text">দয়া করে দাখেলা বা রেজিস্ট্রেশন নাম্বারটি সংগ্রহে রাখবেন, পরবর্তিতে লেনদেন বা অন্য অনেক কাজে এটি প্রয়োজন হতে পারে।</p>
     </div>
 
 

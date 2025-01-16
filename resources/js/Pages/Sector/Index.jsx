@@ -9,6 +9,7 @@ import { usePage } from "@inertiajs/react";
 import moment from "moment";
 import EditBtn from "../Components/EditBtn";
 import Status from "../Components/Status";
+import { getDateTime } from "@/utils/dateTime";
 
 export default function SectorIndex({ sectors }) {
     const { flash } = usePage().props;
@@ -52,14 +53,10 @@ export default function SectorIndex({ sectors }) {
                             <Status status={sector.status} />
                         </TableData>
                         <TableData className="border font-banglaTitle text-center">
-                            {moment(sector.created_at).format(
-                                "MMM-D-YYYY, h:mm A"
-                            )}
+                            {getDateTime(sector.created_at)}
                         </TableData>
                         <TableData className="border font-banglaTitle text-center">
-                            {moment(sector.updated_at).format(
-                                "MMM-D-YYYY, h:mm A"
-                            )}
+                            {getDateTime(sector.updated_at)}
                         </TableData>
                         <TableData className="border flex justify-center">
                             <EditBtn href={route("sector.edit", sector.id)} />
