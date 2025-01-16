@@ -5,9 +5,9 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 export default function Dashboard({ children }) {
-    const [activeMenu, setActiveMenu] = useState(false);
+    const [activeMenu, setActiveMenu] = useState(true);
 
-    const handleShow = () => {
+    const handleIsActive = () => {
         setActiveMenu(!activeMenu);
     };
 
@@ -21,8 +21,8 @@ export default function Dashboard({ children }) {
                     type="image/x-icon"
                 />
             </Head>
-            <Sidebar isActive={activeMenu} setIsActive={handleShow} />
-            <Navbar onShow={handleShow} />
+            <Sidebar active={activeMenu} />
+            <Navbar active={activeMenu} isActive={handleIsActive} />
             <div className="max-w-screen-2xl mx-auto p-4 relative z-0">
                 {children}
             </div>

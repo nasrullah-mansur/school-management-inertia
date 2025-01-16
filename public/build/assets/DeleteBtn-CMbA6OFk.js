@@ -1,1 +1,0 @@
-import{j as e,$ as r}from"./app-8ICf-Exk.js";import{a as s}from"./index-BdCCk12d.js";import"./iconBase-BwOIGpdI.js";function o({href:t}){return e.jsx(r,{href:t,className:"w-9 h-9 rounded-sm text-white flex justify-center items-center bg-red-700 ml-1 transition-all duration-300 hover:bg-red-800 shadow-lg",children:e.jsx(s,{className:"w-5 h-5"})})}export{o as default};

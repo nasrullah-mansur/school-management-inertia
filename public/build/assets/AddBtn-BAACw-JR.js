@@ -1,0 +1,1 @@
+import{j as e}from"./app-BtWbPvnG.js";import{R as t}from"./index-DSkXDQtU.js";import"./iconBase-CXF7Z-H8.js";function a(){return e.jsx(Link,{href:backLink||"#",className:"w-9 h-9 rounded-sm text-white flex justify-center items-center bg-blue-700 ml-1 transition-all duration-300 hover:bg-blue-800 shadow-lg",children:e.jsx(t,{className:"w-5 h-5"})})}export{a as default};

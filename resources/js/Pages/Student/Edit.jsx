@@ -74,7 +74,7 @@ export default function StudentEdit({ sectors, student }) {
                     className="space-y-6 grid grid-cols-1 md:grid-cols-2 gap-3"
                     onSubmit={submit}
                 >
-                    <div className="col-span-1 !m-0">
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="ছাতের পূর্ণ নাম"
                             placeholder="এখানে লিখুন"
@@ -88,7 +88,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="পিতার নাম"
                             placeholder="এখানে লিখুন"
@@ -105,7 +106,7 @@ export default function StudentEdit({ sectors, student }) {
                         )}
                     </div>
 
-                    <div className="!m-0 col-span-1">
+                    <div className="!m-0 col-span-2 md:col-span-1">
                         <label
                             htmlFor="status"
                             className="block mb-2 font-medium text-gray-900 dark:text-white"
@@ -126,7 +127,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="!m-0">
+
+                    <div className="!m-0 col-span-2 md:col-span-1">
                         <label
                             htmlFor="status"
                             className="block mb-2 font-medium text-gray-900 dark:text-white"
@@ -144,7 +146,8 @@ export default function StudentEdit({ sectors, student }) {
                             options={statusOptionsCustom}
                         />
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="ফরম নং"
                             placeholder="এখানে লিখুন"
@@ -158,7 +161,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="মোবাইল নং"
                             placeholder="এখানে লিখুন"
@@ -172,7 +176,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="জন্ম তারিখ"
                             placeholder="এখানে লিখুন"
@@ -188,7 +193,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="জন্ম নিবন্ধন নং"
                             placeholder="এখানে লিখুন"
@@ -204,7 +210,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="এন আই ডি নং"
                             placeholder="এখানে লিখুন"
@@ -218,7 +225,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="গ্রাম"
                             placeholder="এখানে লিখুন"
@@ -232,7 +240,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="পোস্ট অফিস"
                             placeholder="এখানে লিখুন"
@@ -246,7 +255,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="থানা"
                             placeholder="এখানে লিখুন"
@@ -260,7 +270,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="জেলা"
                             placeholder="এখানে লিখুন"
@@ -274,7 +285,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="ফেন নং ২"
                             placeholder="এখানে লিখুন"
@@ -288,7 +300,8 @@ export default function StudentEdit({ sectors, student }) {
                             </span>
                         )}
                     </div>
-                    <div className="col-span-1 !m-0">
+
+                    <div className="col-span-2 md:col-span-1 !m-0">
                         <TextInput
                             label="ফেন নং ৩"
                             placeholder="এখানে লিখুন"

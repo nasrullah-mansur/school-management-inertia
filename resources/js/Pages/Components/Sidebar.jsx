@@ -1,6 +1,8 @@
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
 import { route } from "ziggy-js";
+import { FaArrowLeft } from "react-icons/fa6";
+import { FaAlignLeft } from "react-icons/fa";
 
 const ListItem = ({ li }) => {
     return (
@@ -119,8 +121,8 @@ const LiSubmenu = ({ li }) => {
     );
 };
 
-export default function Sidebar() {
-    const [isActive, setIsActive] = useState(false);
+export default function Sidebar({ isActive, setIsActive }) {
+    const domain = window.location.origin;
 
     const menus = [
         {
@@ -170,33 +172,6 @@ export default function Sidebar() {
 
     return (
         <>
-            <button
-                onClick={() => setIsActive(!isActive)}
-                className={`bg-white -translate-x-1/2 absolute w-10 h-10 border-green-500 flex justify-center items-center rounded-full z-[99] ${
-                    isActive ? "left-64" : "left-0"
-                } top-36 z-50 border`}
-            >
-                <svg
-                    className={`w-6 h-6 text-green-500 dark:text-white ${
-                        isActive && "rotate-180"
-                    }`}
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4"
-                    />
-                </svg>
-            </button>
-
             {isActive && (
                 <>
                     <div className="grid grid-cols-2 relative z-50">
@@ -205,8 +180,15 @@ export default function Sidebar() {
                             aria-label="Sidebar"
                         >
                             <div className="h-full px-3 py-4 overflow-y-auto border-r dark:bg-gray-800">
-                                <div className="p-2 mb-3 text-red-500 font-bold">
-                                    Nasrullah Mansur
+                                <div className="p-2 mb-3 text-red-500 font-bold flex justify-start">
+                                    <img
+                                        src={`${domain}/images/logo.png`}
+                                        className="h-10"
+                                        alt="madrasatu ahmad"
+                                    />
+                                    <span className="self-center ml-3 font-banglaTitle text-xl font-semibold whitespace-nowrap dark:text-white">
+                                        মাদরাসাতু আহমাদ
+                                    </span>
                                 </div>
                                 <ul className="space-y-2 font-medium">
                                     {menus.map((li, index) => {
@@ -231,7 +213,7 @@ export default function Sidebar() {
                         </aside>
                     </div>
                     <div
-                        onClick={() => setIsActive(!isActive)}
+                        onClick={() => setIsActive()}
                         className="z-40 fixed top-0 left-0 w-full h-screen inset-0 backdrop-blur bg-black/40 flex items-center justify-center"
                     ></div>
                 </>

@@ -1,10 +1,13 @@
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import { FaAlignLeft } from "react-icons/fa6";
 
-export default function Navbar() {
+export default function Navbar({ onShow }) {
     const [dropdown, setDropdown] = useState(false);
     const { auth } = usePage().props;
     const { post } = useForm();
+
+    const domain = window.location.origin;
 
     const signOutHandler = (e) => {
         post(
@@ -22,26 +25,34 @@ export default function Navbar() {
         <>
             <nav className={`bg-white border-b dark:bg-gray-900`}>
                 <div className="max-w-screen-2xl flex flex-wrap items-center mx-auto px-4 py-3">
-                    <p className="text-md text-green-600 text-xl hidden md:block font-banglaTitle">
-                        <span className="font-semibold text-xl">
-                            {auth?.user?.name}
-                        </span>
-                        {" কে "}
-                        ড্যশবোর্ড প্যনেলে স্বাগতম
-                    </p>
-                    <a
-                        href="https://flowbite.com/"
+                    <button
+                        onClick={onShow}
+                        className={`bg-white h-10 w-10 mr-2 flex justify-center items-center z-[5] border`}
+                    >
+                        <FaAlignLeft className="text-gray-600" />
+                    </button>
+                    <div className="text-md hidden text-green-600 text-xl md:block font-banglaTitle ">
+                        <div>
+                            <span className="font-semibold text-xl">
+                                {auth?.user?.name}
+                            </span>
+                            {" কে "}
+                            ড্যশবোর্ড প্যনেলে স্বাগতম
+                        </div>
+                    </div>
+                    <Link
+                        href="/dashboard"
                         className="flex items-center space-x-3 rtl:space-x-reverse md:hidden"
                     >
                         <img
-                            src="https://flowbite.com/docs/images/logo.svg"
-                            className="h-8"
-                            alt="Flowbite Logo"
+                            src={`${domain}/images/logo.png`}
+                            className="h-10"
+                            alt="madrasatu ahmad"
                         />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                            Flowbite
+                        <span className="self-center font-banglaTitle text-md md:text-2xl font-semibold whitespace-nowrap dark:text-white">
+                            মাদরাসাতু আহমাদ
                         </span>
-                    </a>
+                    </Link>
                     <div className="flex relative items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ml-auto">
                         <button
                             onClick={() => setDropdown(!dropdown)}
