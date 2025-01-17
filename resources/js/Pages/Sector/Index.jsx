@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
-import Dashboard from "../Dashboard";
 import PageHeader from "../Components/PageHeader";
 import Table from "../Components/Table";
 import TableRow from "../Components/TableRow";
 import TableData from "../Components/TableData";
 import { toast } from "react-toastify";
 import { usePage } from "@inertiajs/react";
-import moment from "moment";
 import EditBtn from "../Components/EditBtn";
 import Status from "../Components/Status";
 import { getDateTime } from "@/utils/dateTime";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function SectorIndex({ sectors }) {
     const { flash } = usePage().props;
@@ -29,7 +28,7 @@ export default function SectorIndex({ sectors }) {
         "স্টাটাস",
     ];
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="সকল বিভাগ"
                 subTitle="প্রতিষ্ঠানের সকল বিভাগ"
@@ -64,6 +63,6 @@ export default function SectorIndex({ sectors }) {
                     </TableRow>
                 ))}
             </Table>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

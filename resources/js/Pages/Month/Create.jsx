@@ -1,7 +1,6 @@
 import Cart from "../Components/Cart";
 import PageHeader from "../Components/PageHeader";
 import TextInput from "../Components/TextInput";
-import Dashboard from "../Dashboard";
 import { useForm } from "@inertiajs/react";
 import Loading from "../Components/Loading";
 import Select from "react-select";
@@ -28,7 +27,7 @@ export default function MonthCreate({ years }) {
     });
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="নতুন মাস"
                 subTitle="একটি নতুন মাস তৈরী করুন"
@@ -88,6 +87,6 @@ export default function MonthCreate({ years }) {
 
                 {processing && <Loading />}
             </Cart>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

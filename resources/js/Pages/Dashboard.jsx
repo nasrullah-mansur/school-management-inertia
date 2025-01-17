@@ -1,36 +1,57 @@
-import { Head } from "@inertiajs/react";
-import Sidebar from "./Components/Sidebar";
-import Navbar from "./Components/Navbar";
-import { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-export default function Dashboard({ children }) {
-    const [activeMenu, setActiveMenu] = useState(false);
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    CartesianGrid,
+    Legend,
+    ResponsiveContainer,
+} from "recharts";
 
-    const handleShow = () => {
-        setActiveMenu(!activeMenu);
-    };
+export default function Dashboard() {
+    const domain = window.location.origin;
+
+    const data = [
+        { name: "January", value: 400 },
+        { name: "February", value: 300 },
+        { name: "March", value: 200 },
+        { name: "April", value: 278 },
+        { name: "May", value: 189 },
+    ];
 
     return (
-        <div>
-            <Head>
-                <title>Dashboard</title>
-                <link
-                    rel="shortcut icon"
-                    href="./images/favicon.ico"
-                    type="image/x-icon"
-                />
-            </Head>
-            <Sidebar isActive={activeMenu} setIsActive={handleShow} />
-            <Navbar onShow={handleShow} />
-            <div className="max-w-screen-2xl mx-auto p-4 relative z-0">
-                {children}
+        <AuthenticatedLayout>
+            <div className="flex mb-10">
+                <div className="mr-2 hidden md:block">
+                    <img
+                        className="h-[70px]"
+                        src={`${domain}/images/logo.png`}
+                        alt="madrasatu ahmad"
+                    />
+                </div>
+                <div className="border-l-2 pl-2">
+                    <h1 className="text-3xl font-semibold font-banglaTitle">
+                        ড্যশবোর্ড
+                    </h1>
+                    <p className="font-normal">
+                        এক নজরে প্রতিষ্ঠানের বিভিন্য তথ্য
+                    </p>
+                </div>
             </div>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={10000}
-                closeOnClick={true}
-            />
-        </div>
+
+            <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="value" fill="#8884d8" />
+                </BarChart>
+            </ResponsiveContainer>
+        </AuthenticatedLayout>
     );
 }

@@ -42,7 +42,7 @@ class SearchController extends Controller
 
         // Retrieve admissions with associated year
         if($d != null) {
-            $admissions = Admission::with('year')
+            $admissions = Admission::with('year', 'sector')
             ->whereHas('year', function ($query) {
                 $query->where('status', 'active');
             })
@@ -56,7 +56,7 @@ class SearchController extends Controller
         } 
         
         else {
-            $admissions = Admission::with('year')
+            $admissions = Admission::with('year', 'sector')
                 ->whereHas('year', function ($query) {
                     $query->where('status', 'active');
                 })

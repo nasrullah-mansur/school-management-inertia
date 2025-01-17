@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
-import Dashboard from "../Dashboard";
 import PageHeader from "../Components/PageHeader";
 import { route } from "ziggy-js";
 import Table from "../Components/Table";
 import TableData from "../Components/TableData";
 import TableRow from "../Components/TableRow";
-import moment from "moment";
 import EditBtn from "../Components/EditBtn";
 import { usePage } from "@inertiajs/react";
 import { toast } from "react-toastify";
@@ -16,6 +14,7 @@ import ViewBtn from "../Components/ViewBtn";
 import Search from "./sections/Search";
 import Download from "./sections/Download";
 import { getDate } from "@/utils/dateTime";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function StudentIndex({ admissions, years, sectors }) {
     const { flash } = usePage().props;
@@ -38,7 +37,7 @@ export default function StudentIndex({ admissions, years, sectors }) {
     ];
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="সকল ছাত্র"
                 subTitle="চলতি বছরের সকল ছাত্রের তথ্য"
@@ -73,7 +72,7 @@ export default function StudentIndex({ admissions, years, sectors }) {
                                     </span>
                                 </TableData>
                                 <TableData className="border">
-                                    {student.sector.sector}
+                                    {student?.sector?.sector}
                                 </TableData>
                                 <TableData className="border">
                                     <Status status={student.status} />
@@ -119,6 +118,6 @@ export default function StudentIndex({ admissions, years, sectors }) {
                     current_page={admissions.current_page}
                 />
             </div>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

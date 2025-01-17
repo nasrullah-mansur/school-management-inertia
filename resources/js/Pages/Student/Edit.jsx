@@ -1,10 +1,10 @@
 import PageHeader from "../Components/PageHeader";
 import TextInput from "../Components/TextInput";
-import Dashboard from "../Dashboard";
 import { useForm } from "@inertiajs/react";
 import Loading from "../Components/Loading";
 import Select from "react-select";
 import { select2style } from "@/utils/select2";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function StudentEdit({ sectors, student }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -57,7 +57,7 @@ export default function StudentEdit({ sectors, student }) {
     }
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="নতুন শিক্ষাবর্ষ"
                 subTitle="নতুন শিক্ষাবর্ষ তৈরী করুন"
@@ -331,6 +331,6 @@ export default function StudentEdit({ sectors, student }) {
 
                 {processing && <Loading />}
             </div>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

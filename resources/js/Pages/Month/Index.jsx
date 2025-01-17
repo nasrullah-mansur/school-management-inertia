@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Dashboard from "../Dashboard";
 import PageHeader from "../Components/PageHeader";
 import { route } from "ziggy-js";
 import Table from "../Components/Table";
@@ -10,6 +9,7 @@ import EditBtn from "../Components/EditBtn";
 import { usePage } from "@inertiajs/react";
 import { toast } from "react-toastify";
 import Status from "../Components/Status";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function MonthIndex({ months }) {
     const { flash } = usePage().props;
@@ -33,7 +33,7 @@ export default function MonthIndex({ months }) {
     ];
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="সকল মাস"
                 subTitle="সকল মাসের তথ্য"
@@ -81,6 +81,6 @@ export default function MonthIndex({ months }) {
                     </TableRow>
                 ))}
             </Table>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

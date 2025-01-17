@@ -1,11 +1,11 @@
 import Cart from "../Components/Cart";
 import PageHeader from "../Components/PageHeader";
 import TextInput from "../Components/TextInput";
-import Dashboard from "../Dashboard";
 import { useForm } from "@inertiajs/react";
 import Loading from "../Components/Loading";
 import Select from "react-select";
 import { select2style, statusOptions } from "@/utils/select2";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function YearCreate() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -23,7 +23,7 @@ export default function YearCreate() {
     }
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="নতুন শিক্ষাবর্ষ"
                 subTitle="নতুন শিক্ষাবর্ষ তৈরী করুন"
@@ -68,6 +68,6 @@ export default function YearCreate() {
 
                 {processing && <Loading />}
             </Cart>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

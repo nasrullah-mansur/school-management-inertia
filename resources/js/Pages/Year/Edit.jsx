@@ -1,11 +1,11 @@
 import Cart from "../Components/Cart";
 import PageHeader from "../Components/PageHeader";
 import TextInput from "../Components/TextInput";
-import Dashboard from "../Dashboard";
 import { useForm } from "@inertiajs/react";
 import Loading from "../Components/Loading";
 import Select from "react-select";
 import { select2style, statusOptions } from "@/utils/select2";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function YearEdit({ year }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -24,7 +24,7 @@ export default function YearEdit({ year }) {
     }
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="শিক্ষাবর্ষটি এডিট"
                 subTitle="শিক্ষাবর্ষটি এডিট করুন"
@@ -76,6 +76,6 @@ export default function YearEdit({ year }) {
 
                 {processing && <Loading />}
             </Cart>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

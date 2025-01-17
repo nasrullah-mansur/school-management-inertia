@@ -1,18 +1,16 @@
-import Cart from "../Components/Cart";
 import PageHeader from "../Components/PageHeader";
 import TextInput from "../Components/TextInput";
-import Dashboard from "../Dashboard";
 import { useForm } from "@inertiajs/react";
 import Loading from "../Components/Loading";
 import Select from "react-select";
 import { select2style, statusOptions } from "@/utils/select2";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function StudentCreate({ years, sectors }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         reg_id: "",
         sector_id: "",
-
         form_no: "",
         father_name: "",
         birth_day: "",
@@ -26,10 +24,6 @@ export default function StudentCreate({ years, sectors }) {
         phone_2: "",
         phone_3: "",
         status: "active",
-    });
-
-    const selectYears = years.map((m) => {
-        return { value: m.id, label: m.year };
     });
 
     const selectSectors = sectors.map((s) => {
@@ -46,7 +40,7 @@ export default function StudentCreate({ years, sectors }) {
     }
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="নতুন ছাত্র"
                 subTitle="নতুন ছাত্র ভর্তি করুন"
@@ -302,6 +296,6 @@ export default function StudentCreate({ years, sectors }) {
 
                 {processing && <Loading />}
             </div>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

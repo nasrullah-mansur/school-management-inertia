@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
-import Dashboard from "../Dashboard";
 import PageHeader from "../Components/PageHeader";
 import { route } from "ziggy-js";
 import Table from "../Components/Table";
 import TableData from "../Components/TableData";
 import TableRow from "../Components/TableRow";
-import moment from "moment";
 import EditBtn from "../Components/EditBtn";
 import { usePage } from "@inertiajs/react";
 import { toast } from "react-toastify";
 import Status from "../Components/Status";
 import { getDateTime } from "@/utils/dateTime";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function YearIndex({ years }) {
     const { flash } = usePage().props;
@@ -31,7 +30,7 @@ export default function YearIndex({ years }) {
     ];
 
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="সকল শিক্ষাবর্ষ"
                 subTitle="সকল শিক্ষাবর্ষ হালনাগাত করুন"
@@ -65,6 +64,6 @@ export default function YearIndex({ years }) {
                     </TableRow>
                 ))}
             </Table>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }

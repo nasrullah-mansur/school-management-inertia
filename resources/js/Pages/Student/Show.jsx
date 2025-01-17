@@ -1,17 +1,14 @@
-import React from "react";
-import Dashboard from "../Dashboard";
 import PageHeader from "../Components/PageHeader";
 import TableRow from "../Components/TableRow";
 import TableData from "../Components/TableData";
 import Table from "../Components/Table";
 import Status from "../Components/Status";
 import { getDateTime } from "@/utils/dateTime";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 export default function Show({ student }) {
-    const tableHeaderOne = [];
-
     return (
-        <Dashboard>
+        <AuthenticatedLayout>
             <PageHeader
                 title="ছাত্রের তথ্য"
                 subTitle="একজন ছাত্রের পরিপূর্ণ তথ্য"
@@ -105,6 +102,6 @@ export default function Show({ student }) {
                     </TableRow>
                 </Table>
             </div>
-        </Dashboard>
+        </AuthenticatedLayout>
     );
 }
