@@ -145,11 +145,6 @@ export default function Sidebar({ isActive, setIsActive }) {
                     name: "বিভাগসমূহ",
                     link: route("sector.index"),
                 },
-                {
-                    id: "৩",
-                    name: "মাসসমূহ",
-                    link: route("month.index"),
-                },
             ],
         },
         {
@@ -165,6 +160,22 @@ export default function Sidebar({ isActive, setIsActive }) {
                     id: "2",
                     name: "নতুন ছাত্র ভর্তি",
                     link: route("admission.create"),
+                },
+            ],
+        },
+        {
+            id: "3",
+            name: "আয় সংক্রান্ত",
+            submenu: [
+                {
+                    id: "1",
+                    name: "আয়ের খাতসমূহ",
+                    link: route("income.sector.index"),
+                },
+                {
+                    id: "2",
+                    name: "নগদ গ্রহণ",
+                    link: route("accept.cash.index"),
                 },
             ],
         },

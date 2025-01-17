@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IncomeController;
-use App\Http\Controllers\MonthController;
+use App\Http\Controllers\IncomeSectorController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
@@ -35,13 +35,6 @@ Route::middleware(["auth"])->group(function() {
     Route::post('years/store', [YearController::class, 'store'])->name('year.store');
     Route::get('years/edit/{id}', [YearController::class, 'edit'])->name('year.edit');
     Route::post('years/update', [YearController::class, 'update'])->name('year.update');
-
-    // Month Routes;
-    Route::get('months', [MonthController::class, 'index'])->name('month.index');
-    Route::get('months/create', [MonthController::class, 'create'])->name('month.create');
-    Route::post('months/store', [MonthController::class, 'store'])->name('month.store');
-    Route::get('months/edit/{id}', [MonthController::class, 'edit'])->name('month.edit');
-    Route::post('months/update', [MonthController::class, 'update'])->name('month.update');
 
     // Sector Routes;
     Route::get('sectors', [SectorController::class, 'index'])->name('sector.index');
@@ -80,18 +73,21 @@ Route::middleware(["auth"])->group(function() {
     Route::get('/pdf/vorti/{id}', [PDFController::class, 'vorti_pdf'])->name('vorti.pdf');
     Route::get('/pdf/download/students', [PDFController::class, 'students_pdf'])->name('students.pdf');
 
-    // Mony For;
-    Route::get('/money-for', [IncomeController::class, 'money_for_index'])->name('money.for.index');
-    Route::get('/money-for/create', [IncomeController::class, 'money_for_create'])->name('money.for.create');
-    Route::post('/money-for', [IncomeController::class, 'money_for_store'])->name('money.for.store');
-    Route::get('/money-for/{id}', [IncomeController::class, 'money_for_edit'])->name('money.for.edit');
-    Route::post('/money-for/{id}', [IncomeController::class, 'money_for_update'])->name('money.for.update');
-
-    // Income;
-    Route::get('/income/create/{id}', [IncomeController::class, 'income_create'])->name('income.create');
-    Route::post('/income/store', [IncomeController::class, 'income_store'])->name('income.store');
+    // Income Sector;
 
 
+    Route::get('income-sectors', [IncomeSectorController::class, 'index'])->name('income.sector.index');
+    Route::get('income-sectors/create', [IncomeSectorController::class, 'create'])->name('income.sector.create');
+    Route::post('income-sectors/store', [IncomeSectorController::class, 'store'])->name('income.sector.store');
+    Route::get('income-sectors/edit/{id}', [IncomeSectorController::class, 'edit'])->name('income.sector.edit');
+    Route::post('income-sectors/update', [IncomeSectorController::class, 'update'])->name('income.sector.update');
+
+    Route::get('accept-cash', [IncomeController::class, 'index'])->name('accept.cash.index');
+    Route::get('accept-cash/create', [IncomeController::class, 'create'])->name('accept.cash.create');
+    Route::post('accept-cash/find', [IncomeController::class, 'find'])->name('accept.cash.find');
+    Route::get('accept-cash/student/{id}', [IncomeController::class, 'view'])->name('accept.cash.view');
+    Route::post('accept-cash/store', [IncomeController::class, 'store'])->name('accept.cash.store');
+    Route::post('accept-cash/update', [IncomeController::class, 'update'])->name('accept.cash.update');
 });
 
 require __DIR__.'/auth.php';

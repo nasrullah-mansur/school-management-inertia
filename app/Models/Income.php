@@ -6,12 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Income extends Model
 {
-    public function money_for() {
-        return $this->belongsTo(MoneyFor::class);
+    public function sector() {
+        return $this->belongsTo(IncomeSector::class, 'income_sector_id');
     }
-
-    public function month() {
-        return $this->belongsTo(Month::class);
+    
+    public function user() {
+        return $this->belongsTo(User::class);
     }
-
 }

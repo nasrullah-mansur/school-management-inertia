@@ -3,7 +3,6 @@ import Loading from "@/Pages/Components/Loading";
 import { select2style } from "@/utils/select2";
 import { useForm } from "@inertiajs/react";
 import { useState } from "react";
-import DatePicker from "react-datepicker";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -38,7 +37,6 @@ export default function Filter({ years, sectors, isFilter, onIsFilter }) {
         { value: "all", label: "সকল স্টাটাস" },
         { value: "active", label: "নিয়মিত" },
         { value: "inactive", label: "বিদায়ী" },
-        { value: "past", label: "বিগত ছাত্র" },
     ];
 
     function submit2(e) {

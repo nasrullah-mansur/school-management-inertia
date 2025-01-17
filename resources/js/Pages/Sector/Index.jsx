@@ -18,6 +18,7 @@ export default function SectorIndex({ sectors }) {
             toast(flash.success);
         }
     }, [flash.success]);
+
     const tableHeaders = [
         "বিভাগের নাম",
         "প্রিফিক্স",

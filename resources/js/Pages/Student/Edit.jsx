@@ -39,7 +39,6 @@ export default function StudentEdit({ sectors, student }) {
         { value: "all", label: "সকল স্টাটাস" },
         { value: "active", label: "নিয়মিত" },
         { value: "inactive", label: "বিদায়ী" },
-        { value: "past", label: "বিগত ছাত্র" },
     ];
 
     const getActiveStatus = (value) => {

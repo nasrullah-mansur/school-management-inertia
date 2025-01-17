@@ -19,16 +19,18 @@ class SectorController extends Controller
         $years = Year::where('status', 'active')->get();
         return Inertia::render("Sector/Create", ['years' => $years]);
     }
+
     public function store(Request $request) {
         
         $request->validate([
             'sector' => "required|max:256",
-            'prefix' => 'required|max:256',
+            'prefix' => 'required|max:256|unique:sectors',
             'year_id' => 'required'
         ], [
             "sector.required" => "দয়া করে কিছু লিখুন",
             "prefix.required" => "দয়া করে কিছু লিখুন",
-            'year_id.required' => "দয়া করে যেকোনো একটি সিলেক্ট করুন"
+            'year_id.required' => "দয়া করে যেকোনো একটি সিলেক্ট করুন",
+            'prefix.unique' => "এটি একবার ব্যবহৃত হয়েছে",
         ]);
 
         $sector = new Sector();
