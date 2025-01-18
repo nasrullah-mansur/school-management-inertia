@@ -8,6 +8,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SectorController;
+use App\Http\Controllers\SectorIncomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YearController;
 use Illuminate\Support\Facades\Route;
@@ -74,16 +75,20 @@ Route::middleware(["auth"])->group(function() {
     Route::get('/pdf/download/students', [PDFController::class, 'students_pdf'])->name('students.pdf');
 
     // Income Sector;
-
-
     Route::get('income-sectors', [IncomeSectorController::class, 'index'])->name('income.sector.index');
     Route::get('income-sectors/create', [IncomeSectorController::class, 'create'])->name('income.sector.create');
     Route::post('income-sectors/store', [IncomeSectorController::class, 'store'])->name('income.sector.store');
     Route::get('income-sectors/edit/{id}', [IncomeSectorController::class, 'edit'])->name('income.sector.edit');
     Route::post('income-sectors/update', [IncomeSectorController::class, 'update'])->name('income.sector.update');
 
+    Route::get('/income/all-income', [IncomeController::class, 'all_income'])->name('all.income');
+
+    Route::get('/income/by/sector', [SectorIncomeController::class, 'index'])->name('income.by.sector.index');
+    Route::post('/income/by/sector', [SectorIncomeController::class, 'search_req'])->name('income.by.sector.req');
+    Route::get('/income/by/sector/{sector_id}/{income_sector_id}/{status}', [SectorIncomeController::class, 'search_result'])->name('income.by.sector.result');
+
     Route::get('accept-cash', [IncomeController::class, 'index'])->name('accept.cash.index');
-    Route::get('accept-cash/create', [IncomeController::class, 'create'])->name('accept.cash.create');
+    // Route::get('accept-cash/create', [IncomeController::class, 'create'])->name('accept.cash.create');
     Route::post('accept-cash/find', [IncomeController::class, 'find'])->name('accept.cash.find');
     Route::get('accept-cash/student/{id}', [IncomeController::class, 'view'])->name('accept.cash.view');
     Route::post('accept-cash/store', [IncomeController::class, 'store'])->name('accept.cash.store');

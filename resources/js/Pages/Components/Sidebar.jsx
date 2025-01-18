@@ -177,6 +177,16 @@ export default function Sidebar({ isActive, setIsActive }) {
                     name: "নগদ গ্রহণ",
                     link: route("accept.cash.index"),
                 },
+                {
+                    id: "3",
+                    name: "সকল আয়",
+                    link: route("all.income"),
+                },
+                {
+                    id: "4",
+                    name: "বিভাগ ভিত্তিক আয়",
+                    link: route("income.by.sector.index"),
+                },
             ],
         },
     ];

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
             $table->integer('amount');
+            $table->integer('sector_id');
             $table->integer('income_sector_id');
             $table->integer('user_id');
             $table->integer('admission_id');

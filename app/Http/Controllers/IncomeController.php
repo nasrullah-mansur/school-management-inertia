@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Income;
 use App\Models\Admission;
 use App\Models\IncomeSector;
+use App\Models\Sector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,7 +40,7 @@ class IncomeController extends Controller
 
     public function view($id) {
         $student = Admission::with('sector')->where('reg_id', $id)->firstOrFail();
-        $incomes = Income::with('sector', "user")->where('admission_id', $student->id)->get();
+        $incomes = Income::with('income_sector', "user")->where('admission_id', $student->id)->get();
         $sectors = IncomeSector::where('status', 'active')->orderBy('created_at', 'desc')->get();
 
         return Inertia::render("Income/AcceptCash/Index", [
@@ -56,6 +57,7 @@ class IncomeController extends Controller
             "confirm_amount" => "required|same:amount",
             "admission_id" => "required",
             "status" => "required",
+            'sector_id' => "required"
         ], [
             'income_sector_id.required' => "দয়া করে একটি খাত সিলেক্ট করুন",
             'amount.required' => "টাকার পরিমাণটি লিখুন",
@@ -68,6 +70,7 @@ class IncomeController extends Controller
         $income->income_sector_id = $request->income_sector_id;
         $income->admission_id = $request->admission_id;
         $income->status = $request->status;
+        $income->sector_id = $request->sector_id;
         $income->user_id = Auth::user()->id;
         $income->save();
 
@@ -75,6 +78,23 @@ class IncomeController extends Controller
 
         // return $request;
 
+    }
+
+    public function all_income() {
+        
+        $incomes = Income::with('admission', 'sector', 'income_sector', 'user')
+        ->whereHas('income_sector', function ($query) {
+            $query->where('status', 'active');
+        })
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
+        return Inertia::render("Income/All", [
+            'incomes' => $incomes,
+        ]);
+    }
+
+    public function download_req(Request $request) {
+        return $request;
     }
 
 }

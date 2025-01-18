@@ -15,6 +15,7 @@ export default function AddMoneyModal({ sectors, onClick, student }) {
         admission_id: student.id,
         status: "active",
         reg_id: student.reg_id,
+        sector_id: student.sector_id,
     });
 
     const statusOptionsCustom = sectors?.map((item) => ({

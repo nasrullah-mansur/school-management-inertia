@@ -140,7 +140,7 @@ export default function Index({ student, incomes, sectors }) {
                                     {income.amount}
                                 </TableData>
                                 <TableData className="border text-center">
-                                    {income.sector.name}
+                                    {income.income_sector.name}
                                 </TableData>
                                 <TableData className="border font-banglaTitle text-center">
                                     {getDateTime(income.created_at)}

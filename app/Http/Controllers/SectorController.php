@@ -24,7 +24,7 @@ class SectorController extends Controller
         
         $request->validate([
             'sector' => "required|max:256",
-            'prefix' => 'required|max:256|unique:sectors',
+            'prefix' => 'required|max:256|unique:sectors|numeric',
             'year_id' => 'required'
         ], [
             "sector.required" => "দয়া করে কিছু লিখুন",

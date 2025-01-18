@@ -80,12 +80,19 @@ class AdmissionController extends Controller
         $admission->phone_2 = convertToEnglishFont($request->phone_2);
         $admission->phone_3 = convertToEnglishFont($request->phone_3);
         
-        $sector = Sector::where('id', $request->sector_id)->firstOrFail();
+       $sector = Sector::where('id', $request->sector_id)->firstOrFail();
 
-        $maxAdmission = Admission::where('id', $sector->id)
-        ->count();
+       $maxAdmission = Admission::where('sector_id', $sector->id)->count();
 
-        $admission->reg_id = $sector->prefix .  str_pad($maxAdmission + 1, 3, '0', STR_PAD_LEFT) ;
+       if($maxAdmission == "0") {
+           $admission->reg_id = $sector->prefix . "001" ;
+        } 
+
+        else {
+            $maxAdmission = Admission::where('sector_id', $sector->id)->max('reg_id');
+            $admission->reg_id = str_pad($maxAdmission + 1, 3, '0', STR_PAD_LEFT) ;
+        }
+
 
         $admission->save();
 
@@ -105,8 +112,8 @@ class AdmissionController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $admission = Admission::where('id', $id)->firstOrFail();
-
+       $admission = Admission::where('id', $id)->firstOrFail();
+    //    return $admission->sector_id;
         $rules = [
             'name' => 'required|max:256',
             'year_id' => 'required|numeric',
@@ -129,7 +136,6 @@ class AdmissionController extends Controller
         
         $admission->name = $request->name;
         $admission->year_id = $request->year_id;
-        $admission->sector_id = $request->sector_id;
         $admission->form_no = convertToEnglishFont($request->form_no);
         $admission->phone = convertToEnglishFont($request->phone);
         $admission->father_name = $request->father_name;
@@ -147,10 +153,16 @@ class AdmissionController extends Controller
         $admission->phone_3 = convertToEnglishFont($request->phone_3);
 
         $sector = Sector::where('id', $request->sector_id)->firstOrFail();
-        $maxAdmission = Admission::where('id', $sector->id)->count();
-        $admission->reg_id = $sector->prefix .  str_pad($maxAdmission + 1, 3, '0', STR_PAD_LEFT) ;
 
-        $admission->save();
+       
+        if($admission->sector_id != $request->sector_id) {
+            $maxAdmission = Admission::where('sector_id', $sector->id)->max('reg_id');
+            $admission->reg_id = str_pad($maxAdmission + 1, 3, '0', STR_PAD_LEFT) ;
+        } 
+
+        $admission->sector_id = $request->sector_id;
+ 
+         $admission->save();
 
         return redirect()->route('admission.index')->with('success', "ছাত্রের ভর্তি তথ্য সফলভাবে আপডেট হয়েছে");
 
