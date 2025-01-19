@@ -23,8 +23,6 @@ export default function Index({ sectors, income_sectors }) {
         label: income.name,
     }));
 
-    console.log(sectorSelect, incomeSectorSelect);
-
     const statusOptions = [
         { value: "active", label: "যারা পরিশোধ করেছে" },
         { value: "inactive", label: "যারা পরিশোধ করেনি" },

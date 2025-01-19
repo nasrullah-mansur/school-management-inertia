@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\AdmissionController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\IncomeController;
-use App\Http\Controllers\IncomeSectorController;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SectorController;
-use App\Http\Controllers\SectorIncomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YearController;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SectorController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdmissionController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CalculationController;
+use App\Http\Controllers\IncomeSectorController;
+use App\Http\Controllers\SectorIncomeController;
 
 Route::get('/', function () {
     return Inertia::render("Welcome");
@@ -88,11 +89,13 @@ Route::middleware(["auth"])->group(function() {
     Route::get('/income/by/sector/{sector_id}/{income_sector_id}/{status}', [SectorIncomeController::class, 'search_result'])->name('income.by.sector.result');
 
     Route::get('accept-cash', [IncomeController::class, 'index'])->name('accept.cash.index');
-    // Route::get('accept-cash/create', [IncomeController::class, 'create'])->name('accept.cash.create');
     Route::post('accept-cash/find', [IncomeController::class, 'find'])->name('accept.cash.find');
     Route::get('accept-cash/student/{id}', [IncomeController::class, 'view'])->name('accept.cash.view');
     Route::post('accept-cash/store', [IncomeController::class, 'store'])->name('accept.cash.store');
     Route::post('accept-cash/update', [IncomeController::class, 'update'])->name('accept.cash.update');
+
+    Route::get('/income/excel/download/{sector_id}/{income_sector_id}/{status}', [PDFController::class, 'income_excel'])->name('income.excel');
+    Route::get('/income/pdf/download/{id}', [PDFController::class, 'income_pdf'])->name('income.pdf');
 });
 
 require __DIR__.'/auth.php';

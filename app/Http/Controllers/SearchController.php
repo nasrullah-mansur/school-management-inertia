@@ -86,7 +86,7 @@ class SearchController extends Controller
     }
 
     public function search_filter_result($year_id, $sector_id, $status) {
-        $admissions = Admission::with('year')
+        $admissions = Admission::with('year', 'sector')
             ->whereHas('year', function ($query) {
                 $query->where('status', 'active');
             })

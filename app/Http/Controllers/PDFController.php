@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Rap2hpoutre\FastExcel\FastExcel;
-use App\Models\Admission;
-use Carbon\Carbon;
 use Mpdf\Mpdf;
+use Carbon\Carbon;
+use App\Models\Income;
+use App\Models\Admission;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class PDFController extends Controller
 {
@@ -156,5 +157,55 @@ class PDFController extends Controller
         });
 
         return $collection;
+    }
+
+    public function income_excel($sector_id, $income_sector_id, $status) {
+        // Fetch incomes and extract admission IDs
+        $incomeAdmissionIds = Income::where('income_sector_id', $income_sector_id)
+        ->where('sector_id', $sector_id)
+        ->pluck('admission_id')
+        ->toArray();
+
+        // Fetch students based on status
+        $query = Admission::where('sector_id', $sector_id)
+        ->orderBy('created_at', 'DESC')
+        ->with('sector');
+
+        if ($status == 'active') {
+        // Students that are in the income collection
+        $query->whereIn('id', $incomeAdmissionIds);
+        } else {
+        // Students that are NOT in the income collection
+        $query->whereNotIn('id', $incomeAdmissionIds);
+        }
+
+        // Paginate and fetch the results
+     
+        $students = $query->get();
+        $updateCollections = $this->getExcel($students);
+        return (new FastExcel($updateCollections))->download('students.xlsx');
+
+    }
+
+    public function income_pdf($id) {
+        $income = Income::where('id', $id)->with('admission', 'sector', 'user', 'income_sector')->firstOrFail();
+
+        $mpdf = new Mpdf([
+            'default_font_size' => 12,
+            'default_font' => 'kalpurush',
+            'format' => 'A5',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 12,
+            'margin_bottom' => 12,
+        ]);
+
+        $html = view('pdf.income', compact('income'))->render();
+        $mpdf->WriteHTML($html);
+
+        $fileName = $income->admission->reg_id;
+        $mpdf->SetTitle($fileName);
+
+        return $mpdf->OutputHttpDownload($fileName . '.pdf');
     }
 }

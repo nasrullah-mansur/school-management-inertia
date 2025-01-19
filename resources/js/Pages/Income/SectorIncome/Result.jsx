@@ -5,6 +5,7 @@ import Table from "@/Pages/Components/Table";
 import TableRow from "@/Pages/Components/TableRow";
 import TableData from "@/Pages/Components/TableData";
 import Pagination from "@/Pages/Components/Pagination";
+import { LuDownload } from "react-icons/lu";
 
 export default function Result({ students, income_sector, status }) {
     const tableHeaders = [
@@ -15,6 +16,8 @@ export default function Result({ students, income_sector, status }) {
         "গ্রহণের তারিখ",
     ];
 
+    const sectorId = students.data[0]?.sector_id || 0;
+
     return (
         <AuthenticatedLayout>
             <PageHeader
@@ -23,6 +26,26 @@ export default function Result({ students, income_sector, status }) {
                 backLink={route("income.by.sector.index")}
                 addLink={null}
             />
+
+            <div className="flex justify-start md:justify-between items-center mb-5">
+                <p className="font-banglaTitle text-2xl font-semibold">
+                    বাবদ: {income_sector.name}
+                </p>
+                <a
+                    target="_blank"
+                    href={route("income.excel", {
+                        sector_id: sectorId,
+                        income_sector_id: income_sector?.id,
+                        status,
+                    })}
+                    className="px-4 mr-2 h-12 rounded-sm bg-blue-600 cursor-pointer flex justify-center items-center text-white"
+                >
+                    <span className="font-banglaTitle font-medium mr-2">
+                        Excel
+                    </span>
+                    <LuDownload />
+                </a>
+            </div>
 
             <Table headers={tableHeaders}>
                 {students?.data.map((income) => (

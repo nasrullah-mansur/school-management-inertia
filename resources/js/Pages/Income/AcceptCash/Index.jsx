@@ -151,7 +151,11 @@ export default function Index({ student, incomes, sectors }) {
 
                                 <TableData className="border">
                                     <div className="flex justify-center">
-                                        <DownloadBtn href="#" />
+                                        <DownloadBtn
+                                            href={route("income.pdf", {
+                                                id: income.id,
+                                            })}
+                                        />
                                     </div>
                                 </TableData>
                             </TableRow>

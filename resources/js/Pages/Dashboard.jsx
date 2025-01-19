@@ -10,17 +10,17 @@ import {
     Legend,
     ResponsiveContainer,
 } from "recharts";
+import Table from "./Components/Table";
+import TableRow from "./Components/TableRow";
+import TableData from "./Components/TableData";
+import Status from "./Components/Status";
+import { Link } from "@inertiajs/react";
+import ViewBtn from "./Components/ViewBtn";
 
-export default function Dashboard() {
+export default function Dashboard({ dailyTotals, users }) {
     const domain = window.location.origin;
 
-    const data = [
-        { name: "January", value: 400 },
-        { name: "February", value: 300 },
-        { name: "March", value: 200 },
-        { name: "April", value: 278 },
-        { name: "May", value: 189 },
-    ];
+    const tableHeaders = ["নাম", "মোবাইল নং", "স্টাটাস", "মোট আয়", "একশন"];
 
     return (
         <AuthenticatedLayout>
@@ -42,16 +42,52 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={data}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="value" fill="#8884d8" />
-                </BarChart>
-            </ResponsiveContainer>
+            <h2 className="font-banglaTitle text-xl font-semibold mb-5 ml-4">
+                শেষ ১০ দিনের মোট আয়
+            </h2>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="grid-cols-1">
+                    <ResponsiveContainer width="100%" height={400}>
+                        <BarChart data={dailyTotals.reverse()}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="total" fill="#8884d8" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                <div className="grid-cols-1">
+                    <div>
+                        <h2 className="font-banglaTitle text-xl font-semibold mb-5 ml-4">
+                            শিক্ষক / স্টফগণের মাধ্যমে আয়
+                        </h2>
+                        <Table headers={tableHeaders}>
+                            {users.map((user) => (
+                                <TableRow>
+                                    <TableData className="border">
+                                        {user.name}
+                                    </TableData>
+                                    <TableData className="border">
+                                        {user.phone}
+                                    </TableData>
+                                    <TableData className="border">
+                                        <Status status={user.status} />
+                                    </TableData>
+                                    <TableData className="border">
+                                        {user.total_income}
+                                    </TableData>
+                                    <TableData className="border">
+                                        <ViewBtn>afa</ViewBtn>
+                                    </TableData>
+                                </TableRow>
+                            ))}
+                        </Table>
+                    </div>
+                </div>
+            </div>
         </AuthenticatedLayout>
     );
 }

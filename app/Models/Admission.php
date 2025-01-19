@@ -18,7 +18,7 @@ class Admission extends Model
         return $this->belongsTo(Sector::class);
     }
 
-    public function income() {
+    public function incomes() {
         return $this->hasMany(Income::class);
     }
 
